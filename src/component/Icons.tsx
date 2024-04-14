@@ -1,13 +1,13 @@
 
 import { Flex } from '@chakra-ui/react';
-import { FC } from 'react';
+
 
 interface IconsProps{
     liked:boolean,
-    setLiked:(value: boolean) => void
+    setLiked:React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const Icons:FC<IconsProps> = ( {liked ,setLiked}) => {
+const Icons= ( {liked ,setLiked} : IconsProps) => {
   return (
     <Flex gap={3} my={2} onClick={(e) => e.preventDefault()}>
 				<svg

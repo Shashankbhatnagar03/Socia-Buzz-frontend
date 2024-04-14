@@ -12,6 +12,8 @@ interface UserPostProps {
 }
 const UserPost=({likes , replies,postImg,postTitle }:UserPostProps) => {
     const [liked , setLiked] = useState<boolean>(false);
+
+    
   return (
     <Link to={"/mark/post/1"}>
       <Flex gap={3} mb={4} py={5}>
@@ -62,7 +64,22 @@ const UserPost=({likes , replies,postImg,postTitle }:UserPostProps) => {
               <Text fontSize={"sm"} color={"grey.light"}>
                 1d
               </Text>
-              <BsThreeDots />
+              {/* do below implementation  */}
+              {/* <Box className='icon-container' >
+                    <Menu>
+                        <MenuButton>
+                        <BsThreeDots cursor={"pointer"}/>
+                        </MenuButton>
+                        <Portal>
+                            <MenuList bg={"grey.dark"}>
+                                <MenuItem bg={"grey.dark"} >Copy Link</MenuItem>
+                            </MenuList>
+                        </Portal>
+                    </Menu>
+
+                </Box> */}
+              <BsThreeDots cursor={"pointer"}/>
+              
             </Flex>
           </Flex>
           <Text fontSize={"sm"}>

@@ -9,7 +9,7 @@ interface IconsProps{
 
 const Icons= ( {liked ,setLiked} : IconsProps) => {
   return (
-    <Flex gap={3} my={2} onClick={(e) => e.preventDefault()}>
+    <Flex cursor={"pointer"} gap={3} my={2} onClick={(e) => e.preventDefault()}>
 				<svg
 					aria-label='Like'
 					color={liked ? "rgb(237, 73, 86)" : ""}

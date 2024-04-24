@@ -26,11 +26,15 @@ export default function UpdateProfilePage() {
     bio: user.bio,
   });
   const fileRef = useRef<HTMLInputElement>(null);
+  const [updating, setUpdating] = useState<boolean>(false);
   const toast = useShowToast();
   const { handleImageChange, imgUrl } = usePreviewImg();
   // console.log(user, "rer");
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (updating) return;
+
+    setUpdating(true);
     try {
       // console.log(inputs);
       const res = await fetch(`/api/v1/users/update/${user._id}`, {
@@ -52,6 +56,8 @@ export default function UpdateProfilePage() {
       localStorage.setItem("user-info", JSON.stringify(data));
     } catch (error) {
       toast("Error", "error", "error");
+    } finally {
+      setUpdating(false);
     }
   };
   return (
@@ -164,6 +170,7 @@ export default function UpdateProfilePage() {
                 bg: "green.500",
               }}
               type="submit"
+              isLoading={updating}
             >
               Submit
             </Button>

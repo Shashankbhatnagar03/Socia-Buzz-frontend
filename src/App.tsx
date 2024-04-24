@@ -13,7 +13,7 @@ import UpdateProfilePage from "./pages/UpdateProfilePage";
 function App() {
   const { pathname } = useLocation();
   const user = useRecoilValue(userAtom);
-  console.log(user);
+  // console.log(user);
   return (
     <>
       <Container

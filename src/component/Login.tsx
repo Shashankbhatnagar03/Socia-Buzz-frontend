@@ -162,6 +162,7 @@ export default function Login() {
                 }
                 onFocus={onFocusActivate}
                 onBlur={onFocusDeactivate}
+                placeholder="Enter your Username"
               />
             </FormControl>
             <FormControl id="password" isRequired>
@@ -178,6 +179,7 @@ export default function Login() {
                   }
                   onFocus={onPasswordActivate}
                   onBlur={onPasswordDeactivate}
+                  placeholder="Enter your Password"
                 />
                 <InputRightElement h={"full"}>
                   <Button

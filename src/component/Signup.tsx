@@ -153,6 +153,7 @@ export default function Signup() {
                       value={inputs.name}
                       onFocus={onFocusActivate}
                       onBlur={onFocusDeactivate}
+                      placeholder="Enter your Full Name"
                     />
                   </FormControl>
                 </Box>
@@ -167,6 +168,7 @@ export default function Signup() {
                       value={inputs.username}
                       onFocus={onFocusActivate}
                       onBlur={onFocusDeactivate}
+                      placeholder="Enter your Username"
                     />
                   </FormControl>
                 </Box>
@@ -181,6 +183,7 @@ export default function Signup() {
                   value={inputs.email}
                   onFocus={onFocusActivate}
                   onBlur={onFocusDeactivate}
+                  placeholder="Enter your Email"
                 />
               </FormControl>
               <FormControl id="password" isRequired>
@@ -194,6 +197,7 @@ export default function Signup() {
                       setInputs({ ...inputs, password: e.target.value })
                     }
                     value={inputs.password}
+                    placeholder="Enter your Password (minimum 6 character)"
                   />
                   <InputRightElement h={"full"}>
                     <Button

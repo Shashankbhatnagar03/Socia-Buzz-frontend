@@ -33,7 +33,7 @@ const HomePage = () => {
         if (data.error) {
           toast("Error", data.error, "error");
         }
-        console.log(data, "sssd");
+        // console.log(data, "sssd");
         setPosts(data);
       } catch (error) {
         toast("Error", "Error will fetching feeds", "error");

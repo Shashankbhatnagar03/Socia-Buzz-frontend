@@ -37,7 +37,6 @@ interface IUserHeaderProps {
 }
 
 const Post = ({ post, userId }: UserPostProps) => {
-  const [liked, setLiked] = useState<boolean>(false);
   const [user, setUser] = useState<IUserHeaderProps | null>();
   const toast = useShowToast();
   const navigate = useNavigate();
@@ -64,7 +63,7 @@ const Post = ({ post, userId }: UserPostProps) => {
 
   if (!user) return null;
 
-  console.log(post.createdAt, "Sss");
+  // console.log(post.createdAt, "Sss");
   return (
     <Link to={`/${user.username}/post/${post._id}`}>
       <Flex gap={3} mb={4} py={5}>
@@ -171,16 +170,7 @@ const Post = ({ post, userId }: UserPostProps) => {
           )}
 
           <Flex gap={3} my={1}>
-            <Icons liked={liked} setLiked={setLiked} />
-          </Flex>
-          <Flex gap={2} alignItems={"center"}>
-            <Text color={"grey.light"} fontSize="sm">
-              {post.replies.length} Replies{" "}
-            </Text>
-            <Box w={0.5} h={0.5} borderRadius={"full"} bg={"grey.light"}></Box>
-            <Text color={"grey.light"} fontSize="sm">
-              {post.likes.length} likes
-            </Text>
+            <Icons post={post} />
           </Flex>
         </Flex>
       </Flex>

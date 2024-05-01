@@ -17,6 +17,7 @@
     "@emotion/styled": "^11.11.5",
     "@rive-app/react-canvas": "^4.8.9",
     "clsx": "^2.1.0",
+    "date-fns": "^3.6.0",
     "framer-motion": "^11.1.7",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

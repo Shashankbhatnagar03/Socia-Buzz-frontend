@@ -94,12 +94,14 @@ export default function Login() {
   const setAuthScreen = useSetRecoilState(authScreenAtom);
   const setUser = useSetRecoilState(userAtom);
   const toast = useShowToast();
+  const [loading, setLoading] = useState<boolean>(false);
   const [inputs, setInputs] = useState({
     username: "",
     password: "",
   });
   const handlelogin = async () => {
     try {
+      setLoading(true);
       const res = await fetch("/api/v1/users/login", {
         method: "POST",
         headers: {
@@ -123,6 +125,8 @@ export default function Login() {
       }, 2000);
     } catch (error) {
       toast("Error", "Something went wrong", "error");
+    } finally {
+      setLoading(false);
     }
   };
   return (
@@ -195,7 +199,7 @@ export default function Login() {
             </FormControl>
             <Stack spacing={10} pt={2}>
               <Button
-                loadingText="Submitting"
+                loadingText="Logging In"
                 size="lg"
                 bg={useColorModeValue("gray.600", "gray.700")}
                 color={"white"}
@@ -203,6 +207,7 @@ export default function Login() {
                   bg: useColorModeValue("gray.700", "gray.800"),
                 }}
                 onClick={handlelogin}
+                isLoading={loading}
               >
                 Login
               </Button>

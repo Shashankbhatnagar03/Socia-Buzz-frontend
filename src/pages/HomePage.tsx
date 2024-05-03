@@ -3,30 +3,17 @@ import { useEffect, useState } from "react";
 
 import useShowToast from "../hooks/useShowToast";
 import Post from "../component/Post";
-interface PostType {
-  _id: string;
-  text: string;
-  replies: [IReply];
-  postedBy: string;
-  likes: [string];
-  img: string;
-  createdAt: string;
-}
-interface IReply {
-  userId: string;
-  text: string;
-  userProfilePic: string;
-  username: string;
-  _id: string;
-}
+import { useRecoilState } from "recoil";
+import postsAtom from "../atoms/postsAtom";
 
 const HomePage = () => {
-  const [posts, setPosts] = useState<PostType[]>([]);
+  const [posts, setPosts] = useRecoilState(postsAtom);
   const [loading, setLoading] = useState<boolean>(true);
   const toast = useShowToast();
   useEffect(() => {
     const getFeedPosts = async () => {
       setLoading(true);
+      setPosts([]);
       try {
         const res = await fetch("/api/v1/posts/feed");
         const data = await res.json();
@@ -42,7 +29,7 @@ const HomePage = () => {
       }
     };
     getFeedPosts();
-  }, [toast]);
+  }, [toast, setPosts]);
   // console.log(posts, "sd");
   return (
     <>

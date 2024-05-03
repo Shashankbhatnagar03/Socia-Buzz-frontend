@@ -15,9 +15,10 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { useState } from "react";
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import userAtom from "../atoms/userAtom";
 import useShowToast from "../hooks/useShowToast";
+import postsAtom from "../atoms/postsAtom";
 
 interface IconsProps {
   post: {
@@ -37,9 +38,9 @@ interface IReply {
   username: string;
   _id: string;
 }
-const Icons = ({ post: post_ }: IconsProps) => {
+const Icons = ({ post }: IconsProps) => {
   const user = useRecoilValue(userAtom);
-  const [post, setPost] = useState(post_);
+  const [posts, setPosts] = useRecoilState(postsAtom);
   const [liked, setLiked] = useState<boolean>(post.likes.includes(user._id));
   const [isLiking, setIsLiking] = useState<boolean>(false);
   const [isReplying, setIsReplying] = useState<boolean>(false);
@@ -67,12 +68,21 @@ const Icons = ({ post: post_ }: IconsProps) => {
 
       if (!liked) {
         //add the id of the current user to likes aray
-        setPost({ ...post, likes: [...post.likes, user._id as string] });
-      } else {
-        setPost({
-          ...post,
-          likes: post.likes.filter((id) => id !== (user._id as string)),
+        const updatedPosts = posts.map((p) => {
+          if (p._id === post._id) {
+            return { ...p, likes: [...p.likes, user._id] };
+          }
+          return p;
         });
+        setPosts(updatedPosts);
+      } else {
+        const updatedPosts = posts.map((p) => {
+          if (p._id === post._id) {
+            return { ...p, likes: p.likes.filter((id) => id !== user._id) };
+          }
+          return p;
+        });
+        setPosts(updatedPosts);
       }
 
       setLiked(!liked);
@@ -106,7 +116,13 @@ const Icons = ({ post: post_ }: IconsProps) => {
       const data = await res.json();
       if (data.error) return toast("Error", data.error, "error");
 
-      setPost({ ...post, replies: [...post.replies, data, reply] });
+      const updatedPosts = posts.map((p) => {
+        if (p._id === post._id) {
+          return { ...p, replies: [...p.replies, data] };
+        }
+        return p;
+      });
+      setPosts(updatedPosts);
       toast("Success", "Reply posted Successfully", "success");
       console.log(data);
       onClose();

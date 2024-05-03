@@ -14,7 +14,7 @@ export interface PostType {
   text: string;
   replies: IReply[];
   postedBy: string;
-  likes: [string];
+  likes: string[];
   img: string;
   createdAt: string;
 }

@@ -6,44 +6,23 @@ import useShowToast from "../hooks/useShowToast";
 
 import { formatDistanceToNow } from "date-fns";
 import { DeleteIcon } from "@chakra-ui/icons";
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import userAtom from "../atoms/userAtom";
+import postsAtom from "../atoms/postsAtom";
+import { IUser, PostType } from "../types/types";
 
 interface UserPostProps {
-  post: {
-    _id: string;
-    text: string;
-    replies: IReply[];
-    postedBy: string;
-    likes: [string];
-    img: string;
-    createdAt: string;
-  };
+  post: PostType;
   userId: string;
-}
-interface IReply {
-  userId: string;
-  text: string;
-  userProfilePic: string;
-  username: string;
-  _id: string;
-}
-interface IUserHeaderProps {
-  _id: string;
-  name: string;
-  username: string;
-  profilePic: string;
-  bio: string;
-  createdAt: string;
-  followers: [string];
-  following: [string];
 }
 
 const Post = ({ post, userId }: UserPostProps) => {
-  const [user, setUser] = useState<IUserHeaderProps | null>();
+  const [user, setUser] = useState<IUser | null>();
   const currentUser = useRecoilValue(userAtom);
   const toast = useShowToast();
   const navigate = useNavigate();
+  const [posts, setPosts] = useRecoilState(postsAtom);
+
   // console.log(userId);
 
   useEffect(() => {
@@ -82,6 +61,7 @@ const Post = ({ post, userId }: UserPostProps) => {
         return;
       }
       toast("Success", "Post deleted", "success");
+      setPosts(posts.filter((p) => p._id !== post._id));
     } catch (error) {
       toast("Error", "Error will deleting a post", "error");
     }

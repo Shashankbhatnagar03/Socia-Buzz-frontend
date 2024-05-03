@@ -21,9 +21,11 @@ import {
 import { useRef, useState } from "react";
 import usePreviewImg from "../hooks/usePreviewImg";
 import { BsFillImageFill } from "react-icons/bs";
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import userAtom from "../atoms/userAtom";
 import useShowToast from "../hooks/useShowToast";
+import postsAtom from "../atoms/postsAtom";
+import { useParams } from "react-router-dom";
 
 const MAX_CHAR = 500;
 const CreatePost = () => {
@@ -35,6 +37,9 @@ const CreatePost = () => {
   const user = useRecoilValue(userAtom);
   const toast = useShowToast();
   const [loading, setLoading] = useState(false);
+  const [posts, setPosts] = useRecoilState(postsAtom);
+  const { username } = useParams();
+  const color = useColorModeValue("gray.300", "grey.dark");
   const handleCreatePost = async () => {
     setLoading(true);
     try {
@@ -57,6 +62,9 @@ const CreatePost = () => {
       }
 
       toast("Success", "Post created successfully", "success");
+      if (username === user.username) {
+        setPosts([data, ...posts]);
+      }
       onClose();
       setPostText("");
       setImgUrl("");
@@ -71,7 +79,7 @@ const CreatePost = () => {
     const inputText = e.target.value;
     // console.log(inputText.length);
     if (inputText.length > MAX_CHAR) {
-      console.log(inputText);
+      // console.log(inputText);
       const truncatedText = inputText.slice(0, MAX_CHAR);
       setPostText(truncatedText);
       setRemainingChar(0);
@@ -82,16 +90,18 @@ const CreatePost = () => {
   };
   return (
     <>
-      <Button
-        position={"fixed"}
-        bottom={10}
-        right={10}
-        leftIcon={<AddIcon />}
-        bg={useColorModeValue("gray.300", "grey.dark")}
-        onClick={onOpen}
-      >
-        Post
-      </Button>
+      {username === user.username && (
+        <Button
+          position={"fixed"}
+          bottom={10}
+          right={5}
+          bg={color}
+          onClick={onOpen}
+          size={{ base: "sm", sm: "md" }}
+        >
+          <AddIcon />
+        </Button>
+      )}
 
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />

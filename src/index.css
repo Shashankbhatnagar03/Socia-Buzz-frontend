@@ -6,10 +6,10 @@
     transition: background-color 0.3s ease-in-out;
 }
 
-.icon-container:hover{
+/* .icon-container:hover{
     background-color: #1e1e1e;
     
-}
+} */
 
 .RiveContainer{
     width: 300px;

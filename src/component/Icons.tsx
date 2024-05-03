@@ -41,7 +41,7 @@ interface IReply {
 const Icons = ({ post }: IconsProps) => {
   const user = useRecoilValue(userAtom);
   const [posts, setPosts] = useRecoilState(postsAtom);
-  const [liked, setLiked] = useState<boolean>(post.likes.includes(user._id));
+  const [liked, setLiked] = useState<boolean>(post.likes.includes(user?._id));
   const [isLiking, setIsLiking] = useState<boolean>(false);
   const [isReplying, setIsReplying] = useState<boolean>(false);
   const [reply, setReply] = useState<string>("");

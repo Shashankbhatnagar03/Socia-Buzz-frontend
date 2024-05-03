@@ -17,7 +17,7 @@ const Header = () => {
       {user && (
         <Flex justifyContent={"space-between"} mt={6} mb={3}>
           {user && (
-            <Link as={RouterLink} to="/">
+            <Link as={RouterLink} to="/" mt={5}>
               <AiFillHome size={24} cursor={"pointer"} />
             </Link>
           )}

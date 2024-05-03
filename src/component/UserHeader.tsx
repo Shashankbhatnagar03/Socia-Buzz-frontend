@@ -11,6 +11,7 @@ import {
   Portal,
   Text,
   VStack,
+  useColorModeValue,
 } from "@chakra-ui/react";
 
 import { BsInstagram } from "react-icons/bs";
@@ -34,6 +35,7 @@ const UserHeader = ({ user }: IUserHeaderProps) => {
     user.followers.includes(currentUser?._id)
   );
   const [updating, setUpdating] = useState<boolean>(false);
+  const color = useColorModeValue("gray.light", "grey.dark");
   //   console.log(following);
   const copyUrl = () => {
     const currentUrl = window.location.href;
@@ -78,7 +80,7 @@ const UserHeader = ({ user }: IUserHeaderProps) => {
     }
   };
   return (
-    <VStack gap={4} alignItems={"start"}>
+    <VStack gap={4} alignItems={"start"} mt={12}>
       <Flex justifyContent={"space-between"} w={"full"}>
         <Box>
           <Text fontSize={{ base: "xl", md: "2xl" }} fontWeight={"bold"}>
@@ -148,8 +150,8 @@ const UserHeader = ({ user }: IUserHeaderProps) => {
                 <CgMoreO size={24} cursor={"pointer"} />
               </MenuButton>
               <Portal>
-                <MenuList bg={"grey.dark"}>
-                  <MenuItem bg={"grey.dark"} onClick={copyUrl}>
+                <MenuList bg={color}>
+                  <MenuItem bg={color} onClick={copyUrl}>
                     Copy Link
                   </MenuItem>
                 </MenuList>

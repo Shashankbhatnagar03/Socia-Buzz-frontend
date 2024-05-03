@@ -13,7 +13,7 @@ import Icons from "../component/Icons";
 import useGetUserProfile from "../hooks/useGetUserProfile";
 import useShowToast from "../hooks/useShowToast";
 import { useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 import { formatDistanceToNow } from "date-fns";
 import { useRecoilState, useRecoilValue } from "recoil";
@@ -89,14 +89,19 @@ const PostPage = () => {
     <>
       <Flex>
         <Flex w={"full"} alignItems={"center"} gap={3}>
-          <Avatar src={user.profilePic} size={"md"} name={user.name} />
-          <Flex>
-            <Text fontSize={"sm"} fontWeight={"bold"}>
-              {user.username}
-            </Text>
-            <Image src="/verified.png" w={4} h={4} ml={1} mt={1} />
-          </Flex>
+          <Link to={`/${user.username}`}>
+            <Avatar src={user.profilePic} size={"md"} name={user.name} />
+          </Link>
+          <Link to={`/${user.username}`}>
+            <Flex>
+              <Text fontSize={"sm"} fontWeight={"bold"}>
+                {user.username}
+              </Text>
+              <Image src="/verified.png" w={4} h={4} ml={1} mt={1} />
+            </Flex>
+          </Link>
         </Flex>
+
         <Flex gap={4} alignItems={"center"}>
           <Text
             fontSize={"xs"}

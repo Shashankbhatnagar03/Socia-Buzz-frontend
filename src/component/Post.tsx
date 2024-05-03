@@ -165,7 +165,7 @@ const Post = ({ post, userId }: UserPostProps) => {
               </Text>
               {currentUser?._id === user._id && (
                 <div onClick={handleDeletePost}>
-                  <DeleteIcon bgSize={20} />
+                  <DeleteIcon cursor={"pointer"} bgSize={20} />
                 </div>
               )}
 

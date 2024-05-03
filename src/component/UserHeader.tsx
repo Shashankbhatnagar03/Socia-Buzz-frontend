@@ -21,17 +21,10 @@ import userAtom from "../atoms/userAtom";
 import { Link as RouterLink } from "react-router-dom";
 import { useState } from "react";
 import useShowToast from "../hooks/useShowToast";
+import { IUser } from "../types/types";
+
 interface IUserHeaderProps {
-  user: {
-    _id: string;
-    name: string;
-    username: string;
-    profilePic: string;
-    bio: string;
-    createdAt: string;
-    followers: [string];
-    following: [string];
-  };
+  user: IUser;
 }
 const UserHeader = ({ user }: IUserHeaderProps) => {
   const toast = useShowToast();

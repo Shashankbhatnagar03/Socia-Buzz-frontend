@@ -4,48 +4,16 @@ import { useParams } from "react-router-dom";
 import useShowToast from "../hooks/useShowToast";
 import { Flex, Spinner } from "@chakra-ui/react";
 import Post from "../component/Post";
-interface PostType {
-  _id: string;
-  text: string;
-  replies: IReply[];
-  postedBy: string;
-  likes: [string];
-  img: string;
-  createdAt: string;
-}
-interface IReply {
-  userId: string;
-  text: string;
-  userProfilePic: string;
-  username: string;
-  _id: string;
-}
+import useGetUserProfile from "../hooks/useGetUserProfile";
+import { PostType } from "../types/types";
 
 const UserPage = () => {
-  const [user, setUser] = useState(null);
+  const { user, loading } = useGetUserProfile();
   const { username } = useParams();
   const toast = useShowToast();
-  const [loading, setLoading] = useState<boolean>(true);
   const [posts, setPosts] = useState<PostType[]>([]);
   const [fetchingPosts, setFetchingPosts] = useState(true);
   useEffect(() => {
-    const getUser = async () => {
-      try {
-        const res = await fetch(`/api/v1/users/profile/${username}`);
-        const data = await res.json();
-        // console.log(data);
-        if (data.error) {
-          toast("Error", data.error, "error");
-          return;
-        }
-
-        setUser(data);
-      } catch (error) {
-        toast("Error", "User page not fetched", "error");
-      } finally {
-        setLoading(false);
-      }
-    };
     const getPosts = async () => {
       try {
         setFetchingPosts(true);
@@ -64,7 +32,6 @@ const UserPage = () => {
         setFetchingPosts(false);
       }
     };
-    getUser();
     getPosts();
   }, [username, toast]);
 

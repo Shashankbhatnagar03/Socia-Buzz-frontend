@@ -1,10 +1,13 @@
 import { Avatar, Box, Flex, Image, Text } from "@chakra-ui/react";
 import { Link, useNavigate } from "react-router-dom";
 import Icons from "./Icons";
-import { useEffect, useState } from "react";
+import { MouseEventHandler, useEffect, useState } from "react";
 import useShowToast from "../hooks/useShowToast";
 
 import { formatDistanceToNow } from "date-fns";
+import { DeleteIcon } from "@chakra-ui/icons";
+import { useRecoilValue } from "recoil";
+import userAtom from "../atoms/userAtom";
 
 interface UserPostProps {
   post: {
@@ -38,6 +41,7 @@ interface IUserHeaderProps {
 
 const Post = ({ post, userId }: UserPostProps) => {
   const [user, setUser] = useState<IUserHeaderProps | null>();
+  const currentUser = useRecoilValue(userAtom);
   const toast = useShowToast();
   const navigate = useNavigate();
   // console.log(userId);
@@ -62,8 +66,26 @@ const Post = ({ post, userId }: UserPostProps) => {
   }, [userId, toast]);
 
   if (!user) return null;
-
   // console.log(post.createdAt, "Sss");
+
+  const handleDeletePost: MouseEventHandler<HTMLDivElement> = async (e) => {
+    try {
+      e.preventDefault();
+      if (!window.confirm("Are you sure you want to delete this post?")) return;
+
+      const res = await fetch(`/api/v1/posts/${post._id}`, {
+        method: "DELETE",
+      });
+      const data = await res.json();
+      if (data.error) {
+        toast("Error", data.error, "error");
+        return;
+      }
+      toast("Success", "Post deleted", "success");
+    } catch (error) {
+      toast("Error", "Error will deleting a post", "error");
+    }
+  };
   return (
     <Link to={`/${user.username}/post/${post._id}`}>
       <Flex gap={3} mb={4} py={5}>
@@ -141,6 +163,12 @@ const Post = ({ post, userId }: UserPostProps) => {
               >
                 {formatDistanceToNow(new Date(post.createdAt))} ago
               </Text>
+              {currentUser?._id === user._id && (
+                <div onClick={handleDeletePost}>
+                  <DeleteIcon bgSize={20} />
+                </div>
+              )}
+
               {/* do below implementation  */}
               {/* <Box className='icon-container' >
                     <Menu>

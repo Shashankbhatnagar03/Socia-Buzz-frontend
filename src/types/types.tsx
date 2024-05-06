@@ -36,3 +36,39 @@ export interface ICommentProps {
   };
   lastReply: boolean;
 }
+
+export interface IConversation {
+  participants: IParticipants[];
+  lastMessage: {
+    text: string;
+    sender: string;
+  };
+  createdAt: Date;
+  updatedAt: Date;
+  _id: string;
+}
+export interface IParticipants {
+  profilePic: string;
+  _id: string;
+  username: string;
+}
+export interface IMessageProps {
+  message: IMessage;
+  ownMessage: boolean;
+}
+
+export interface IConversationProps {
+  conversation: IConversation;
+}
+
+export interface IMessage {
+  conversationId: string;
+  sender: string;
+  text: string;
+  createdAt: Date;
+  updatedAt: Date;
+  _id: string;
+}
+export interface IMessageInputProps {
+  setMessages: React.Dispatch<React.SetStateAction<IMessage[]>>;
+}

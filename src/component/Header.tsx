@@ -6,6 +6,7 @@ import { AiFillHome } from "react-icons/ai";
 import { RxAvatar } from "react-icons/rx";
 import { FiLogOut } from "react-icons/fi";
 import useLogout from "../hooks/useLogout";
+import { LuMessagesSquare } from "react-icons/lu";
 
 const Header = () => {
   const { colorMode, toggleColorMode } = useColorMode();
@@ -34,6 +35,9 @@ const Header = () => {
             <Flex alignItems={"center"} gap={4}>
               <Link as={RouterLink} to={`/${user.username}`}>
                 <RxAvatar size={24} cursor={"pointer"} />
+              </Link>
+              <Link as={RouterLink} to={`/chat`}>
+                <LuMessagesSquare size={24} cursor={"pointer"} />
               </Link>
               <Button size={"xs"} onClick={logout}>
                 <FiLogOut size={20} />

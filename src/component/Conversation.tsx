@@ -1,6 +1,7 @@
 import {
   Avatar,
   AvatarBadge,
+  Box,
   Flex,
   Image,
   Stack,
@@ -30,7 +31,7 @@ const Conversation = ({ conversation, isOnline }: IConversationProps) => {
     <Flex
       gap={4}
       alignItems={"center"}
-      p={"1"}
+      p={1}
       _hover={{
         cursor: "pointer",
         bg: useColorModeValue("gray.500", "grey.dark"),
@@ -71,7 +72,9 @@ const Conversation = ({ conversation, isOnline }: IConversationProps) => {
         </Text>
         <Text fontSize={"xs"} display={"flex"} alignItems={"center"} gap={1}>
           {currentUser?._id === lastMessage.sender ? (
-            <BsCheck2All size={16} />
+            <Box color={lastMessage.seen ? "blue.400" : ""}>
+              <BsCheck2All size={16} />
+            </Box>
           ) : (
             ""
           )}

@@ -45,6 +45,7 @@ export interface IConversation {
   lastMessage: {
     text: string;
     sender: string;
+    seen: boolean;
   };
   createdAt: Date;
   updatedAt: Date;
@@ -72,6 +73,7 @@ export interface IMessage {
   createdAt: Date;
   updatedAt: Date;
   _id: string;
+  seen: boolean;
 }
 export interface IMessageInputProps {
   setMessages: React.Dispatch<React.SetStateAction<IMessage[]>>;

@@ -12,7 +12,7 @@ import Message from "./Message";
 import MessageInput from "./MessageInput";
 import { useEffect, useRef, useState } from "react";
 import useShowToast from "../hooks/useShowToast";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import {
   conversationsAtom,
   seletedConversationAtom,
@@ -23,9 +23,7 @@ import { useSocket } from "../context/SocketContext";
 
 const MessageContainer = () => {
   const toast = useShowToast();
-  const [selectedConversation, setSelectedConversation] = useRecoilState(
-    seletedConversationAtom
-  );
+  const selectedConversation = useRecoilValue(seletedConversationAtom);
   const [loadingMessage, setLoadingMessages] = useState<boolean>(true);
   const [messages, setMessages] = useState<IMessage[]>([]);
   const currentUser = useRecoilValue(userAtom);
@@ -50,6 +48,7 @@ const MessageContainer = () => {
                 lastMessage: {
                   text: message.text,
                   sender: message.sender,
+                  seen: false,
                 },
               };
             }
@@ -62,13 +61,39 @@ const MessageContainer = () => {
         socket.off("newMessage");
       };
     }
-  }, [socket]);
+  }, [socket, selectedConversation, setConversations]);
 
   useEffect(() => {
     if (messageEndRef.current) {
       messageEndRef.current.scrollIntoView({ behavior: "smooth" });
     }
   }, [messages]);
+  useEffect(() => {
+    const lastMessageIsFromOtherUser =
+      messages.length &&
+      messages[messages.length - 1].sender !== currentUser._id;
+    if (lastMessageIsFromOtherUser) {
+      if (socket) {
+        socket.emit("markMessageAsSeen", {
+          conversationId: selectedConversation._id,
+          userId: selectedConversation.userId,
+        });
+      }
+    }
+    socket?.on("messageSeen", ({ conversationId }) => {
+      if (selectedConversation._id === conversationId) {
+        setMessages((prev) => {
+          const updatedMessages = prev.map((message) => {
+            if (!message.seen) {
+              return { ...message, seen: true };
+            }
+            return message;
+          });
+          return updatedMessages;
+        });
+      }
+    });
+  }, [socket, currentUser._id, messages, selectedConversation]);
 
   useEffect(() => {
     const getMessages = async () => {

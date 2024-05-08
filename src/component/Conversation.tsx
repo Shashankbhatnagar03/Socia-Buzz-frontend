@@ -15,7 +15,7 @@ import userAtom from "../atoms/userAtom";
 import { BsCheck2All } from "react-icons/bs";
 import { seletedConversationAtom } from "../atoms/messagesAtom";
 
-const Conversation = ({ conversation }: IConversationProps) => {
+const Conversation = ({ conversation, isOnline }: IConversationProps) => {
   const user = conversation.participants[0];
   // console.log(conversation.participants);
   // console.log(conversation.createdAt);
@@ -62,7 +62,7 @@ const Conversation = ({ conversation }: IConversationProps) => {
           }}
           src={user.profilePic}
         >
-          <AvatarBadge boxSize={"1em"} bg={"green.500"} />
+          {isOnline ? <AvatarBadge boxSize={"1em"} bg={"green.500"} /> : ""}
         </Avatar>
       </WrapItem>
       <Stack direction={"column"} fontSize={"sm"}>

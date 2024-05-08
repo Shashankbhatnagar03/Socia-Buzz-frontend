@@ -26,6 +26,7 @@ import {
 } from "../atoms/messagesAtom";
 import userAtom from "../atoms/userAtom";
 import { IConversation } from "../types/types";
+import { useSocket } from "../context/SocketContext";
 
 const ChatPage = () => {
   const { colorMode } = useColorMode();
@@ -43,6 +44,7 @@ const ChatPage = () => {
   );
 
   const currentUser = useRecoilValue(userAtom);
+  const { socket, onlineUsers } = useSocket();
   useEffect(() => {
     const getConversation = async () => {
       try {
@@ -214,6 +216,9 @@ const ChatPage = () => {
               <Conversation
                 key={conversation._id}
                 conversation={conversation}
+                isOnline={onlineUsers.includes(
+                  conversation.participants[0]._id
+                )}
               />
             ))}
         </Flex>

@@ -1,3 +1,6 @@
+import { ReactNode } from "react";
+import { Socket } from "socket.io-client";
+
 export interface IUser {
   _id: string;
   name: string;
@@ -59,6 +62,7 @@ export interface IMessageProps {
 
 export interface IConversationProps {
   conversation: IConversation;
+  isOnline: boolean;
 }
 
 export interface IMessage {
@@ -71,4 +75,13 @@ export interface IMessage {
 }
 export interface IMessageInputProps {
   setMessages: React.Dispatch<React.SetStateAction<IMessage[]>>;
+}
+
+export interface SocketContextProps {
+  socket: Socket | undefined;
+  onlineUsers: string[];
+}
+
+export interface SocketContextProviderProps {
+  children: ReactNode;
 }

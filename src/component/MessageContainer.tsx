@@ -20,6 +20,7 @@ import {
 import { IMessage } from "../types/types";
 import userAtom from "../atoms/userAtom";
 import { useSocket } from "../context/SocketContext";
+import messageNotificationSound from "../assets//sounds/messageNotification.mp3";
 
 const MessageContainer = () => {
   const toast = useShowToast();
@@ -36,6 +37,11 @@ const MessageContainer = () => {
         // console.log(message);
         if (selectedConversation._id === message.conversationId) {
           setMessages((prev) => [...prev, message]);
+        }
+
+        if (!document.hasFocus()) {
+          const sound = new Audio(messageNotificationSound);
+          sound.play();
         }
 
         // console.log(messages, "s");

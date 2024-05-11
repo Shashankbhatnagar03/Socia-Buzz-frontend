@@ -95,3 +95,11 @@ export interface SocketContextProps {
 export interface SocketContextProviderProps {
   children: ReactNode;
 }
+
+export interface IUserHeaderProps {
+  user: IUser;
+}
+
+export interface SuggestedUserProps {
+  user: IUser;
+}

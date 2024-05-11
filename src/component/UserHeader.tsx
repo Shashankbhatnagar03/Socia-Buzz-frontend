@@ -13,28 +13,21 @@ import {
   VStack,
   useColorModeValue,
 } from "@chakra-ui/react";
-
 import { BsInstagram } from "react-icons/bs";
 import { CgMoreO } from "react-icons/cg";
 import "../index.css";
 import { useRecoilValue } from "recoil";
 import userAtom from "../atoms/userAtom";
 import { Link as RouterLink } from "react-router-dom";
-import { useState } from "react";
 import useShowToast from "../hooks/useShowToast";
-import { IUser } from "../types/types";
+import { IUserHeaderProps } from "../types/types";
+import useFollowUnfollow from "../hooks/useFollowUnfollow";
 
-interface IUserHeaderProps {
-  user: IUser;
-}
 const UserHeader = ({ user }: IUserHeaderProps) => {
   const toast = useShowToast();
   //   console.log(user);
   const currentUser = useRecoilValue(userAtom);
-  const [following, setFollowing] = useState(
-    user.followers.includes(currentUser?._id)
-  );
-  const [updating, setUpdating] = useState<boolean>(false);
+  const { handleFollowUnfollow, updating, following } = useFollowUnfollow(user);
   const color = useColorModeValue("gray.light", "grey.dark");
   //   console.log(following);
   const copyUrl = () => {
@@ -44,41 +37,6 @@ const UserHeader = ({ user }: IUserHeaderProps) => {
     });
   };
 
-  const handleFollowUnfollow = async () => {
-    if (!currentUser) {
-      toast("Error", "Please login to follow", "error");
-      return;
-    }
-    if (updating) return;
-    setUpdating(true);
-    try {
-      const res = await fetch(`/api/v1/users/follow/${user._id}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
-      const data = await res.json();
-      //   console.log(data);
-      if (data.error) {
-        toast("Error", data.error, "error");
-        return;
-      }
-      if (following) {
-        toast("Success", `Unfollowed ${user.name}`, "success");
-        user.followers.pop();
-      } else {
-        toast("Success", `Followed ${user.name}`, "success");
-        user.followers.push(currentUser?._id);
-      }
-      setFollowing(!following);
-    } catch (error) {
-      toast("Error", "Failed to Follow/Unfollow User", "error");
-    } finally {
-      setUpdating(false);
-    }
-  };
   return (
     <VStack gap={4} alignItems={"start"} mt={12}>
       <Flex justifyContent={"space-between"} w={"full"}>

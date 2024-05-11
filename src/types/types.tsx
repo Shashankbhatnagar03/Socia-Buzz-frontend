@@ -12,6 +12,12 @@ export interface IUser {
   following: [string];
 }
 
+export interface UserPostProps {
+  likes: number;
+  replies: number;
+  postImg?: string;
+  postTitle: string;
+}
 export interface PostType {
   _id: string;
   text: string;
@@ -41,6 +47,7 @@ export interface ICommentProps {
 }
 
 export interface IConversation {
+  mock: boolean;
   participants: IParticipants[];
   lastMessage: {
     text: string;
@@ -74,6 +81,7 @@ export interface IMessage {
   updatedAt: Date;
   _id: string;
   seen: boolean;
+  img: string;
 }
 export interface IMessageInputProps {
   setMessages: React.Dispatch<React.SetStateAction<IMessage[]>>;

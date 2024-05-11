@@ -1,23 +1,20 @@
 import { SearchIcon } from "@chakra-ui/icons";
 import {
   Box,
-  Button,
   Flex,
   Input,
+  InputGroup,
+  InputLeftElement,
   Skeleton,
   SkeletonCircle,
+  Spinner,
   Text,
   useColorMode,
 } from "@chakra-ui/react";
 import Conversation from "../component/Conversation";
 import { SiWechat } from "react-icons/si";
 import MessageContainer from "../component/MessageContainer";
-import {
-  FormEventHandler,
-  MouseEventHandler,
-  useEffect,
-  useState,
-} from "react";
+import { EventHandler, useEffect, useState } from "react";
 import useShowToast from "../hooks/useShowToast";
 import { useRecoilState, useRecoilValue } from "recoil";
 import {
@@ -27,6 +24,7 @@ import {
 import userAtom from "../atoms/userAtom";
 import { IConversation } from "../types/types";
 import { useSocket } from "../context/SocketContext";
+import NewMessage from "../component/NewMessage";
 
 const ChatPage = () => {
   const { colorMode } = useColorMode();
@@ -42,10 +40,11 @@ const ChatPage = () => {
   const [selectedConversation, setSelectedConversation] = useRecoilState(
     seletedConversationAtom
   );
+  const [loadingConversationsTemp, setLoadingConversationsTemp] =
+    useState<boolean>(true);
 
   const currentUser = useRecoilValue(userAtom);
   const { socket, onlineUsers } = useSocket();
-
   useEffect(() => {
     socket?.on("messagesSeen", ({ conversationId }) => {
       setConversations((prev) => {
@@ -67,6 +66,7 @@ const ChatPage = () => {
   }, [socket, setConversations]);
   useEffect(() => {
     const getConversation = async () => {
+      setLoadingConversations(true);
       try {
         const res = await fetch("/api/v1/messages/conversations");
         const data = await res.json();
@@ -93,16 +93,16 @@ const ChatPage = () => {
 
   useEffect(() => {
     const filteredConversation = async () => {
-      setLoadingConversations(true);
+      setLoadingConversationsTemp(true);
       try {
-        const res = await fetch(
-          `/api/v1/users/profiles/bulk/?filter=${filter}`
-        );
-        const data = await res.json();
-        if (data.error) {
-          toast("Error", "No conversation found", "error");
-          return;
-        }
+        // const res = await fetch(
+        //   `/api/v1/users/profiles/bulk/?filter=${filter}`
+        // );
+        // const data = await res.json();
+        // if (data.error) {
+        //   toast("Error", "No conversation found", "error");
+        //   return;
+        // }
 
         const filteredConversations = conversations.filter((conversation) => {
           const conversationUser = conversation.participants[0].username;
@@ -112,7 +112,7 @@ const ChatPage = () => {
       } catch (error) {
         toast("Error", "Something went wrong ", "error");
       } finally {
-        setLoadingConversations(false);
+        setLoadingConversationsTemp(false);
       }
     };
     const timeOutId = setTimeout(filteredConversation, 500);
@@ -120,8 +120,9 @@ const ChatPage = () => {
     return () => clearTimeout(timeOutId);
   }, [toast, filter, conversations, setConversations]);
 
-  const handleConversationSearch: FormEventHandler<HTMLFormElement> &
-    MouseEventHandler<HTMLButtonElement> = async (e) => {
+  const handleConversationSearch: EventHandler<React.SyntheticEvent> = async (
+    e
+  ) => {
     e.preventDefault();
     setSearchingUser(true);
     try {
@@ -143,6 +144,7 @@ const ChatPage = () => {
       );
       if (conversationAlreadyExists) {
         setSelectedConversation({
+          mock: false,
           _id: conversationAlreadyExists._id,
           userId: searchedUser._id,
           username: searchedUser.username,
@@ -150,6 +152,22 @@ const ChatPage = () => {
         });
         return;
       }
+      // const mockConversation = {
+      // 	mock: true,
+      // 	lastMessage: {
+      // 		text: "",
+      // 		sender: "",
+      // 	},
+      // 	_id: Date.now(),
+      // 	participants: [
+      // 		{
+      // 			_id: searchedUser._id,
+      // 			username: searchedUser.username,
+      // 			profilePic: searchedUser.profilePic,
+      // 		},
+      // 	],
+      // };
+      // setConversations((prevConvs) => [...prevConvs, mockConversation]);
     } catch (error) {
       toast("Error", "Something went wrong ", "error");
     } finally {
@@ -197,23 +215,50 @@ const ChatPage = () => {
           </Text>
           <form onSubmit={handleConversationSearch}>
             <Flex alignItems={"center"} gap={2}>
-              <Input
-                placeholder="Search for a user"
-                onChange={(e) => {
-                  setSearchText(e.target.value);
-                  setFilter(e.target.value);
-                }}
-              />
-              <Button
-                size={"sm"}
-                isLoading={searchingUser}
-                onClick={handleConversationSearch}
-              >
-                <SearchIcon />
-              </Button>
+              <InputGroup>
+                <InputLeftElement
+                  cursor={"pointer"}
+                  onClick={handleConversationSearch}
+                  children={
+                    searchingUser ? (
+                      <Spinner size={"sm"} />
+                    ) : (
+                      <SearchIcon color="gray.300" />
+                    )
+                  }
+                />
+                <Input
+                  type="text"
+                  placeholder="Search for a user"
+                  onChange={(e) => {
+                    setSearchText(e.target.value);
+                    setFilter(e.target.value);
+                  }}
+                  focusBorderColor="teal.400"
+                  borderColor="gray.300"
+                  size="md"
+                />
+              </InputGroup>
             </Flex>
           </form>
-          {loadingConversations &&
+
+          {!loadingConversations &&
+            !loadingConversationsTemp &&
+            conversationsTemp.length > 0 &&
+            conversationsTemp.map((conversation) => (
+              <Conversation
+                key={conversation._id}
+                conversation={conversation}
+                isOnline={onlineUsers.includes(
+                  conversation.participants[0]._id
+                )}
+              />
+            ))}
+          {/* {!loadingConversations && conversations.length == 0 && <NewMessage />} */}
+          {!loadingConversations &&
+            !loadingConversationsTemp &&
+            conversationsTemp.length === 0 && <NewMessage />}
+          {(loadingConversations || loadingConversationsTemp) &&
             [0, 1, 2, 3, 4].map((_, i) => (
               <Flex
                 key={i}
@@ -230,16 +275,6 @@ const ChatPage = () => {
                   <Skeleton h={"8px"} w={"90%"} />
                 </Flex>
               </Flex>
-            ))}
-          {!loadingConversations &&
-            conversationsTemp.map((conversation) => (
-              <Conversation
-                key={conversation._id}
-                conversation={conversation}
-                isOnline={onlineUsers.includes(
-                  conversation.participants[0]._id
-                )}
-              />
             ))}
         </Flex>
         {!selectedConversation._id && (

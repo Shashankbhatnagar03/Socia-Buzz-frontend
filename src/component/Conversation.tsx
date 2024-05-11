@@ -13,7 +13,7 @@ import {
 import { IConversationProps } from "../types/types";
 import { useRecoilState, useRecoilValue } from "recoil";
 import userAtom from "../atoms/userAtom";
-import { BsCheck2All } from "react-icons/bs";
+import { BsCheck2All, BsFillImageFill } from "react-icons/bs";
 import { seletedConversationAtom } from "../atoms/messagesAtom";
 
 const Conversation = ({ conversation, isOnline }: IConversationProps) => {
@@ -44,6 +44,7 @@ const Conversation = ({ conversation, isOnline }: IConversationProps) => {
           userId: user._id,
           userProfilepic: user.profilePic,
           username: user.username,
+          mock: conversation.mock,
         })
       }
       bg={
@@ -80,7 +81,7 @@ const Conversation = ({ conversation, isOnline }: IConversationProps) => {
           )}
           {lastMessage.text.length > 15
             ? lastMessage.text.substring(0, 15) + "..."
-            : lastMessage.text}
+            : lastMessage.text || <BsFillImageFill size={16} />}
         </Text>
       </Stack>
     </Flex>

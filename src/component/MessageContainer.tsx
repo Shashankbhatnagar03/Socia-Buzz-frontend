@@ -98,8 +98,9 @@ const MessageContainer = () => {
   useEffect(() => {
     const getMessages = async () => {
       setLoadingMessages(true);
-      // setMessages([]);
+      setMessages([]);
       try {
+        if (selectedConversation.mock) return;
         const res = await fetch(
           `/api/v1/messages/${selectedConversation.userId}`
         );
@@ -109,7 +110,7 @@ const MessageContainer = () => {
           return;
         }
 
-        // console.log(data, "message");
+        console.log(data, "message");
         setMessages(data);
         // console.log(setMessages)
       } catch (error) {
@@ -120,7 +121,7 @@ const MessageContainer = () => {
     };
     getMessages();
     // console.log(setMessages);
-  }, [toast, selectedConversation.userId]);
+  }, [toast, selectedConversation]);
   return (
     <Flex
       flex="70"

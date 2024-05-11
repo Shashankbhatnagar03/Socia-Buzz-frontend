@@ -2,7 +2,7 @@ import { useState } from "react";
 import useShowToast from "./useShowToast";
 
 const usePreviewImg = () => {
-  const [imgUrl, setImgUrl] = useState<string | null>(null);
+  const [imgUrl, setImgUrl] = useState<string>("");
   const toast = useShowToast();
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -17,7 +17,7 @@ const usePreviewImg = () => {
       reader.readAsDataURL(file);
     } else {
       toast("Invalid file type", "Pleas select an image file", "error");
-      setImgUrl(null);
+      setImgUrl("");
     }
   };
   //   console.log(imgUrl);

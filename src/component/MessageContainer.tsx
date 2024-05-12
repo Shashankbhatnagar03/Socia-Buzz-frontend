@@ -116,7 +116,7 @@ const MessageContainer = () => {
           return;
         }
 
-        console.log(data, "message");
+        // console.log(data, "message");
         setMessages(data);
         // console.log(setMessages)
       } catch (error) {

@@ -124,7 +124,7 @@ const Icons = ({ post }: IconsProps) => {
       });
       setPosts(updatedPosts);
       toast("Success", "Reply posted Successfully", "success");
-      console.log(data);
+      // console.log(data);
       onClose();
       setReply("");
     } catch (error) {

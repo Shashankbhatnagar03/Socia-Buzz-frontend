@@ -7,6 +7,7 @@ export interface IUser {
   username: string;
   profilePic: string;
   bio: string;
+  isFrozen: boolean;
   createdAt: string;
   followers: [string];
   following: [string];

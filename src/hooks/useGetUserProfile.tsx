@@ -4,7 +4,7 @@ import useShowToast from "./useShowToast";
 import { IUser } from "../types/types";
 
 const useGetUserProfile = () => {
-  const [user, setUser] = useState<IUser>();
+  const [user, setUser] = useState<IUser | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const { username } = useParams();
   const toast = useShowToast();
@@ -17,6 +17,10 @@ const useGetUserProfile = () => {
         // console.log(data);
         if (data.error) {
           toast("Error", data.error, "error");
+          return;
+        }
+        if (data.isFrozen) {
+          setUser(null);
           return;
         }
 

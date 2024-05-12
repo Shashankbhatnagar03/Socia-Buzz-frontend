@@ -2,13 +2,13 @@ import { useEffect, useState } from "react";
 import UserHeader from "../component/UserHeader";
 import { useParams } from "react-router-dom";
 import useShowToast from "../hooks/useShowToast";
-import { Flex, Spinner } from "@chakra-ui/react";
+import { Box, Flex, Heading, Spinner } from "@chakra-ui/react";
 import Post from "../component/Post";
 import useGetUserProfile from "../hooks/useGetUserProfile";
 import postsAtom from "../atoms/postsAtom";
 import { useRecoilState } from "recoil";
 
-const UserPage = () => {
+const UserPage: React.FC = () => {
   const { user, loading } = useGetUserProfile();
   const { username } = useParams();
   const toast = useShowToast();
@@ -17,6 +17,7 @@ const UserPage = () => {
   useEffect(() => {
     const getPosts = async () => {
       try {
+        if (!user) return;
         setFetchingPosts(true);
         const res = await fetch(`/api/v1/posts/user/${username}`);
         const data = await res.json();
@@ -34,9 +35,8 @@ const UserPage = () => {
       }
     };
     getPosts();
-  }, [username, toast, setPosts]);
+  }, [username, toast, setPosts, user]);
 
-  console.log("here recoil ", posts);
   if (!user) {
     if (loading) {
       return (
@@ -45,11 +45,16 @@ const UserPage = () => {
         </Flex>
       );
     } else {
-      return <h1>User not Found</h1>;
+      return (
+        <Box display="flex" justifyContent="center">
+          <Heading size="lg" mr={10} color={"red.400"}>
+            User not Found!
+          </Heading>
+        </Box>
+      );
     }
   }
 
-  // console.log(user);
   return (
     <>
       <UserHeader user={user} />

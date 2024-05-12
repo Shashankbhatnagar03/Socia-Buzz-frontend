@@ -9,7 +9,7 @@ import { useState } from "react";
 
 const Message = ({ message, ownMessage }: IMessageProps) => {
   // console.log(ownMessage);
-  console.log(message);
+  // console.log(message);
   const selectedConversation = useRecoilValue(seletedConversationAtom);
   const user = useRecoilValue(userAtom);
   const [imgLoaded, setImgLoaded] = useState<boolean>(false);

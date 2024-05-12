@@ -19,25 +19,8 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import userAtom from "../atoms/userAtom";
 import useShowToast from "../hooks/useShowToast";
 import postsAtom from "../atoms/postsAtom";
+import { IconsProps } from "../types/types";
 
-interface IconsProps {
-  post: {
-    _id: string;
-    text: string;
-    replies: IReply[];
-    postedBy: string;
-    likes: string[];
-    img: string;
-    createdAt: string;
-  };
-}
-interface IReply {
-  userId: string;
-  text: string;
-  userProfilePic: string;
-  username: string;
-  _id: string;
-}
 const Icons = ({ post }: IconsProps) => {
   const user = useRecoilValue(userAtom);
   const [posts, setPosts] = useRecoilState(postsAtom);

@@ -9,14 +9,9 @@ import { DeleteIcon } from "@chakra-ui/icons";
 import { useRecoilState, useRecoilValue } from "recoil";
 import userAtom from "../atoms/userAtom";
 import postsAtom from "../atoms/postsAtom";
-import { IUser, PostType } from "../types/types";
+import { IUser, UserPagePostProps } from "../types/types";
 
-interface UserPostProps {
-  post: PostType;
-  userId: string;
-}
-
-const Post = ({ post, userId }: UserPostProps) => {
+const Post = ({ post, userId }: UserPagePostProps) => {
   const [user, setUser] = useState<IUser | null>();
   const currentUser = useRecoilValue(userAtom);
   const toast = useShowToast();

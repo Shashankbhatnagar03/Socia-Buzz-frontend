@@ -28,6 +28,15 @@ export interface PostType {
   img: string;
   createdAt: string;
 }
+export interface IconsProps {
+  post: PostType;
+}
+
+export interface UserPagePostProps {
+  post: PostType;
+  userId: string;
+}
+
 export interface IReply {
   userId: string;
   text: string;

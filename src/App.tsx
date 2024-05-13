@@ -11,6 +11,7 @@ import UpdateProfilePage from "./pages/UpdateProfilePage";
 import CreatePost from "./component/CreatePost";
 import ChatPage from "./pages/ChatPage";
 import SettingsPage from "./pages/SettingsPage";
+import FollowerAndFollowingPage from "./pages/FollowerAndFollowingPage";
 
 function App() {
   // const { pathname } = useLocation();
@@ -33,6 +34,18 @@ function App() {
             <Route
               path="/update"
               element={user ? <UpdateProfilePage /> : <Navigate to="/auth" />}
+            />
+            <Route
+              path={`/:username/followings`}
+              element={
+                user ? <FollowerAndFollowingPage /> : <Navigate to="/auth" />
+              }
+            />
+            <Route
+              path={`/:username/followers`}
+              element={
+                user ? <FollowerAndFollowingPage /> : <Navigate to="/auth" />
+              }
             />
 
             <Route

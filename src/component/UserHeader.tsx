@@ -45,15 +45,8 @@ const UserHeader = ({ user }: IUserHeaderProps) => {
             {user.name}
           </Text>
           <Flex gap={2} alignItems={"center"}>
-            <Text fontSize={"sm"}>{user.username}</Text>
-            <Text
-              fontSize={"xs"}
-              bg={"grey.dark"}
-              color={"grey.light"}
-              p={1}
-              borderRadius={"full"}
-            >
-              sociaBuzz.net
+            <Text fontSize={"md"} fontWeight={"light"}>
+              @{user.username}
             </Text>
           </Flex>
         </Box>
@@ -63,8 +56,8 @@ const UserHeader = ({ user }: IUserHeaderProps) => {
               name={user.name}
               src={user.profilePic}
               size={{
-                base: "md",
-                md: "xl",
+                base: "xl",
+                md: "2xl",
               }}
             />
           )}
@@ -73,8 +66,8 @@ const UserHeader = ({ user }: IUserHeaderProps) => {
               name={user.name}
               src="broken"
               size={{
-                base: "md",
-                md: "xl",
+                base: "xl",
+                md: "2xl",
               }}
             />
           )}
@@ -94,9 +87,14 @@ const UserHeader = ({ user }: IUserHeaderProps) => {
       )}
       <Flex w={"full"} justifyContent={"space-between"}>
         <Flex gap={2} alignItems={"center"}>
-          <Text color={"grey.light"}>{user.followers.length} followers</Text>
+          <Link as={RouterLink} to={`/${user.username}/followings`}>
+            <Text color={"grey.light"}>{user.followers.length} followers</Text>
+          </Link>
+
           <Box w={1} h={1} bg={"grey.light"} borderRadius={"full"}></Box>
-          <Link color={"grey.light"}>instagram.com</Link>
+          <Link as={RouterLink} to={`/${user.username}/followings`}>
+            <Text color={"grey.light"}>{user.following.length} followers</Text>
+          </Link>
         </Flex>
         <Flex>
           <Box className="icon-container">

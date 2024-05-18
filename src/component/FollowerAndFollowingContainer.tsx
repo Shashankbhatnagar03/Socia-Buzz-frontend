@@ -1,4 +1,4 @@
-import { Avatar, Box, Button, Image, Text } from "@chakra-ui/react";
+import { Avatar, Box, Button, Flex, Image, Text } from "@chakra-ui/react";
 
 import { IUser } from "../types/types";
 import useFollowUnfollow from "../hooks/useFollowUnfollow";
@@ -16,7 +16,7 @@ const FollowerAndFollowingContainer = ({
   const currentUser = useRecoilValue(userAtom);
   return (
     <>
-      <Box display={"flex"} ml={"30%"}>
+      <Flex justifyContent={"space-between"} w={"400px"}>
         <Box>
           <Link to={`/${user.username}`}>
             <Box display="flex">
@@ -38,7 +38,16 @@ const FollowerAndFollowingContainer = ({
           </Link>
         </Box>
         {currentUser._id !== user._id && (
-          <Box alignContent={"center"} ml={"7"}>
+          <Box
+            alignContent={"center"}
+            ml={"7"}
+            // position={"revert-layer"}.
+            // justifyContent={"flex-end"}
+            // position={"absolute"}
+            // flexWrap={"inherit"}
+            // right={"35%"}
+            // overflowY={"auto"}
+          >
             <Button
               size={"sm"}
               color={following ? "black" : "white"}
@@ -54,7 +63,7 @@ const FollowerAndFollowingContainer = ({
             </Button>
           </Box>
         )}
-      </Box>
+      </Flex>
     </>
   );
 };

@@ -1,5 +1,6 @@
 import {
   Avatar,
+  AvatarBadge,
   Divider,
   Flex,
   Image,
@@ -28,7 +29,7 @@ const MessageContainer = () => {
   const [loadingMessage, setLoadingMessages] = useState<boolean>(true);
   const [messages, setMessages] = useState<IMessage[]>([]);
   const currentUser = useRecoilValue(userAtom);
-  const { socket } = useSocket();
+  const { socket, onlineUsers } = useSocket();
   const setConversations = useSetRecoilState(conversationsAtom);
   const messageEndRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -137,7 +138,13 @@ const MessageContainer = () => {
       p={2}
     >
       <Flex w={"full"} h={12} alignItems={"center"} gap={"2"}>
-        <Avatar src={selectedConversation.userProfilepic} size={"sm"} />
+        <Avatar src={selectedConversation.userProfilepic} size={"sm"}>
+          {onlineUsers.includes(selectedConversation.userId) ? (
+            <AvatarBadge boxSize={"1em"} bg={"green.500"} />
+          ) : (
+            ""
+          )}
+        </Avatar>
         <Text display={"flex"} alignItems={"center"}>
           {selectedConversation.username}{" "}
           <Image src="/verified.png" w={4} h={4} ml={1} />

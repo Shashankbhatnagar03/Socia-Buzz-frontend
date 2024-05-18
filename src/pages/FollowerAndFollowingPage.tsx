@@ -1,15 +1,21 @@
 import { useState } from "react";
 import { Box, Button, Flex, Heading, Spinner, Text } from "@chakra-ui/react";
-import { useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import useGetUserProfile from "../hooks/useGetUserProfile";
 import Followers from "../component/Followers";
 import Followings from "../component/Followings";
 
 const FollowerAndFollowingPage = () => {
   const navigate = useNavigate();
-  const [followersOrFollowing, setFollowersOrFollowing] =
-    useState<string>("followings");
+  const location = useLocation();
+  const pathname = location.pathname;
+  const lastSegment = pathname.split("/").pop();
+  console.log(lastSegment);
+  const [followersOrFollowing, setFollowersOrFollowing] = useState<string>(
+    lastSegment === "followers" ? "followers" : "followings"
+  );
   // const [user, setUser] = useState<IUser | null>(null);
+
   const { user, loading } = useGetUserProfile();
 
   const handleFollowersClick = () => {
@@ -42,13 +48,17 @@ const FollowerAndFollowingPage = () => {
   return (
     <Box>
       <Box ml={2}>
-        <Text fontSize={{ base: "2xl", md: "3xl" }} fontWeight={"bold"}>
-          {user.name}
-        </Text>
-        <Flex gap={2} alignItems={"center"}>
-          <Text fontSize={"lg"} fontWeight={"light"}>
-            @{user.username}
+        <Link to={`/${user.username}`}>
+          <Text fontSize={{ base: "2xl", md: "3xl" }} fontWeight={"bold"}>
+            {user.name}
           </Text>
+        </Link>
+        <Flex gap={2} alignItems={"center"}>
+          <Link to={`/${user.username}`}>
+            <Text fontSize={"lg"} fontWeight={"light"}>
+              @{user.username}
+            </Text>
+          </Link>
         </Flex>
       </Box>
       <Flex justifyContent="space-between" mt={2}>

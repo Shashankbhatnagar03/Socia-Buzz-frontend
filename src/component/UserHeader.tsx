@@ -87,13 +87,13 @@ const UserHeader = ({ user }: IUserHeaderProps) => {
       )}
       <Flex w={"full"} justifyContent={"space-between"}>
         <Flex gap={2} alignItems={"center"}>
-          <Link as={RouterLink} to={`/${user.username}/followings`}>
+          <Link as={RouterLink} to={`/${user.username}/followers`}>
             <Text color={"grey.light"}>{user.followers.length} followers</Text>
           </Link>
 
           <Box w={1} h={1} bg={"grey.light"} borderRadius={"full"}></Box>
           <Link as={RouterLink} to={`/${user.username}/followings`}>
-            <Text color={"grey.light"}>{user.following.length} followers</Text>
+            <Text color={"grey.light"}>{user.following.length} followings</Text>
           </Link>
         </Flex>
         <Flex>

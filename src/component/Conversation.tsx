@@ -13,7 +13,7 @@ import {
 import { IConversationProps } from "../types/types";
 import { useRecoilState, useRecoilValue } from "recoil";
 import userAtom from "../atoms/userAtom";
-import { BsCheck2All, BsFillImageFill } from "react-icons/bs";
+import { BsCheck2All, BsCircleFill, BsFillImageFill } from "react-icons/bs";
 import { seletedConversationAtom } from "../atoms/messagesAtom";
 
 const Conversation = ({ conversation, isOnline }: IConversationProps) => {
@@ -84,6 +84,11 @@ const Conversation = ({ conversation, isOnline }: IConversationProps) => {
             : lastMessage.text || <BsFillImageFill size={16} />}
         </Text>
       </Stack>
+      {currentUser?._id !== lastMessage.sender && !lastMessage.seen && (
+        <Box ml="auto" color="red.500" mr={3}>
+          <BsCircleFill size={8} />
+        </Box>
+      )}
     </Flex>
   );
 };

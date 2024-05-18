@@ -68,7 +68,7 @@ const Followers = () => {
         ))}
       {(!loadingFollowers || !bulkUsersLoading || !loading) && (
         <Box maxHeight="400px" overflowY="auto">
-          <VStack spacing={7} alignItems={"start"} mt={4}>
+          <VStack spacing={7} mt={4}>
             {followers.map((u) => (
               <FollowerAndFollowingContainer key={u._id} user={u} />
             ))}

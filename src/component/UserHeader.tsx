@@ -13,7 +13,6 @@ import {
   VStack,
   useColorModeValue,
 } from "@chakra-ui/react";
-import { BsInstagram } from "react-icons/bs";
 import { CgMoreO } from "react-icons/cg";
 import "../index.css";
 import { useRecoilValue } from "recoil";
@@ -98,9 +97,6 @@ const UserHeader = ({ user }: IUserHeaderProps) => {
         </Flex>
         <Flex>
           <Box className="icon-container">
-            <BsInstagram size={24} cursor={"pointer"} />
-          </Box>
-          <Box className="icon-container">
             <Menu>
               <MenuButton>
                 <CgMoreO size={24} cursor={"pointer"} />
@@ -125,17 +121,6 @@ const UserHeader = ({ user }: IUserHeaderProps) => {
           cursor={"pointer"}
         >
           <Text fontWeight={"bold"}> Posts</Text>
-        </Flex>
-
-        <Flex
-          flex={1}
-          borderBottom={"1px solid grey"}
-          justifyContent={"center"}
-          pb="3"
-          cursor={"pointer"}
-          color={"grey.light"}
-        >
-          <Text fontWeight={"bold"}> Replies</Text>
         </Flex>
       </Flex>
     </VStack>

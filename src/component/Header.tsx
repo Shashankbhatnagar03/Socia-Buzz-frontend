@@ -21,11 +21,10 @@ import userAtom from "../atoms/userAtom";
 import { Link as RouterLink } from "react-router-dom";
 import { AiFillHome, AiOutlineMenu } from "react-icons/ai";
 import { RxAvatar } from "react-icons/rx";
-import { FiLogOut, FiSettings } from "react-icons/fi";
+import { FiLogOut, FiSearch, FiSettings } from "react-icons/fi";
 import useLogout from "../hooks/useLogout";
 import { LuMessagesSquare } from "react-icons/lu";
 import { useState } from "react";
-
 const Header = () => {
   const { colorMode, toggleColorMode } = useColorMode();
   const user = useRecoilValue(userAtom);
@@ -76,6 +75,17 @@ const Header = () => {
 
             {isLargerThan768 ? (
               <Flex alignItems={"center"} gap={1}>
+                <Link as={RouterLink} to={"/search"}>
+                  <Button
+                    size={"xs"}
+                    h={"2.3rem"}
+                    cursor={"pointer"}
+                    background={"transparent"}
+                    borderRadius={"full"}
+                  >
+                    <FiSearch size={23} cursor={"pointer"} />
+                  </Button>
+                </Link>
                 <Link as={RouterLink} to={`/${user.username}`}>
                   <Button
                     size={"xs"}
@@ -140,11 +150,6 @@ const Header = () => {
                 <Drawer isOpen={isOpen} placement="right" onClose={onClose}>
                   <DrawerOverlay>
                     <DrawerContent
-                      // bg={
-                      //   colorMode === "dark"
-                      //     ? "rgba(16, 16, 16)"
-                      //     : "rgba(237, 242, 247)"
-                      // }
                       bg={
                         colorMode === "dark"
                           ? "rgba(16, 16, 16, 0.6)"
@@ -156,6 +161,32 @@ const Header = () => {
                       <DrawerHeader>Menu</DrawerHeader>
                       <DrawerBody>
                         <Flex flexDirection={"column"} gap={3}>
+                          <Flex justifyContent={"space-around"}>
+                            <Link
+                              as={RouterLink}
+                              to={"/search"}
+                              onClick={onClose}
+                            >
+                              <Button
+                                size={"xs"}
+                                h={"2.3rem"}
+                                cursor={"pointer"}
+                                background={"transparent"}
+                                borderRadius={"full"}
+                                ml={3}
+                              >
+                                <FiSearch size={28} cursor={"pointer"} />
+                              </Button>
+                            </Link>
+                            <Link
+                              as={RouterLink}
+                              to={"/search"}
+                              onClick={onClose}
+                              alignContent={"center"}
+                            >
+                              <Text>Search User</Text>
+                            </Link>
+                          </Flex>
                           <Flex justifyContent={"space-around"}>
                             <Link
                               as={RouterLink}

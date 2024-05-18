@@ -12,6 +12,7 @@ import CreatePost from "./component/CreatePost";
 import ChatPage from "./pages/ChatPage";
 import SettingsPage from "./pages/SettingsPage";
 import FollowerAndFollowingPage from "./pages/FollowerAndFollowingPage";
+import SearchPage from "./pages/SearchPage";
 
 function App() {
   // const { pathname } = useLocation();
@@ -61,7 +62,10 @@ function App() {
                 )
               }
             />
-            <Route path="/:username/post/:pid" element={<PostPage />} />
+            <Route
+              path="/:username/post/:pid"
+              element={user ? <PostPage /> : <Navigate to={"/auth"} />}
+            />
             <Route
               path="/chat"
               element={user ? <ChatPage /> : <Navigate to={"/auth"} />}
@@ -69,6 +73,11 @@ function App() {
             <Route
               path="/settings"
               element={user ? <SettingsPage /> : <Navigate to={"/auth"} />}
+            />
+
+            <Route
+              path="/search"
+              element={user ? <SearchPage /> : <Navigate to={"/auth"} />}
             />
           </Routes>
         </Container>

@@ -15,18 +15,14 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import userAtom from "../atoms/userAtom";
 import { BsCheck2All, BsCircleFill, BsFillImageFill } from "react-icons/bs";
 import { seletedConversationAtom } from "../atoms/messagesAtom";
-
 const Conversation = ({ conversation, isOnline }: IConversationProps) => {
   const user = conversation.participants[0];
-  // console.log(conversation.participants);
-  // console.log(conversation.createdAt);
   const currentUser = useRecoilValue(userAtom);
   const lastMessage = conversation.lastMessage;
   const [selectedConversation, setSelectedConversation] = useRecoilState(
     seletedConversationAtom
   );
   const { colorMode } = useColorMode();
-  // console.log(selectedConversation, "ss");
   return (
     <Flex
       gap={4}
@@ -38,15 +34,15 @@ const Conversation = ({ conversation, isOnline }: IConversationProps) => {
         color: "white",
       }}
       borderRadius={"md"}
-      onClick={() =>
+      onClick={() => {
         setSelectedConversation({
           _id: conversation._id,
           userId: user._id,
           userProfilepic: user.profilePic,
           username: user.username,
           mock: conversation.mock,
-        })
-      }
+        });
+      }}
       bg={
         selectedConversation?._id === conversation._id
           ? colorMode === "light"
@@ -81,14 +77,17 @@ const Conversation = ({ conversation, isOnline }: IConversationProps) => {
           )}
           {lastMessage.text.length > 15
             ? lastMessage.text.substring(0, 15) + "..."
-            : lastMessage.text || <BsFillImageFill size={16} />}
+            : lastMessage.text ||
+              (!conversation.mock && <BsFillImageFill size={16} />)}
         </Text>
       </Stack>
-      {currentUser?._id !== lastMessage.sender && !lastMessage.seen && (
-        <Box ml="auto" color="red.500" mr={3}>
-          <BsCircleFill size={8} />
-        </Box>
-      )}
+      {currentUser?._id !== lastMessage.sender &&
+        !lastMessage.seen &&
+        !conversation.mock && (
+          <Box ml="auto" color="red.500" mr={3}>
+            <BsCircleFill size={8} />
+          </Box>
+        )}
     </Flex>
   );
 };

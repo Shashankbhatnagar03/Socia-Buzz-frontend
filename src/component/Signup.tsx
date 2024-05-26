@@ -103,7 +103,6 @@ export default function Signup() {
         body: JSON.stringify(inputs),
       });
       const data = await res.json();
-      // console.log(data);
       if (data.error) {
         toast("Error", data.error, "error");
         return;
@@ -153,7 +152,8 @@ export default function Signup() {
                       value={inputs.name}
                       onFocus={onFocusActivate}
                       onBlur={onFocusDeactivate}
-                      placeholder="Enter your Full Name"
+                      placeholder="Enter your Full Name "
+                      maxLength={40}
                     />
                   </FormControl>
                 </Box>
@@ -169,6 +169,7 @@ export default function Signup() {
                       onFocus={onFocusActivate}
                       onBlur={onFocusDeactivate}
                       placeholder="Enter your Username"
+                      maxLength={20}
                     />
                   </FormControl>
                 </Box>
@@ -198,6 +199,7 @@ export default function Signup() {
                     }
                     value={inputs.password}
                     placeholder="Enter your Password (minimum 6 character)"
+                    maxLength={20}
                   />
                   <InputRightElement h={"full"}>
                     <Button

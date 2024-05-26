@@ -1,7 +1,6 @@
 import {
   Avatar,
   Box,
-  Button,
   Divider,
   Flex,
   Image,
@@ -43,7 +42,6 @@ const PostPage = () => {
           return;
         }
 
-        // console.log(data);
         setPosts([data]);
       } catch (error) {
         toast("Error", "Something went wrong", "error");
@@ -65,7 +63,6 @@ const PostPage = () => {
       }
       toast("Success", "Post deleted", "success");
       navigate(`/${user?.username}`);
-      // console.log(user);
     } catch (error) {
       toast("Error", "Error will deleting a post", "error");
     }
@@ -134,16 +131,6 @@ const PostPage = () => {
 
       <Flex gap="3" my="3">
         <Icons post={currentPost} />
-      </Flex>
-
-      <Divider my={4} />
-
-      <Flex justifyContent={"space-between"}>
-        <Flex gap={2} alignItems={"center"}>
-          <Text fontSize={"2xl"}>👋</Text>
-          <Text color={"grey.light"}>Get the app to like, reply and post.</Text>
-        </Flex>
-        <Button>Get</Button>
       </Flex>
 
       <Divider my={4} />

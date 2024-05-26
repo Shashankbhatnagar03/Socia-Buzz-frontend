@@ -38,7 +38,6 @@ const MessageInput = ({ setMessages }: IMessageInputProps) => {
   const { onClose } = useDisclosure();
   const { handleImageChange, imgUrl, setImgUrl } = usePreviewImg();
   const [isSending, setIsSending] = useState<boolean>(false);
-  // const colorScheme = useColorModeValue("teal", "blue");
   const handleSendMessage: EventHandler<React.SyntheticEvent> = async (e) => {
     e.preventDefault();
     if (!messageText && !imgUrl) return;
@@ -83,7 +82,6 @@ const MessageInput = ({ setMessages }: IMessageInputProps) => {
       });
       setMessageText("");
       setImgUrl("");
-      // console.log(messageText);
     } catch (error) {
       toast("Error", "Something went wrong", "error");
     } finally {

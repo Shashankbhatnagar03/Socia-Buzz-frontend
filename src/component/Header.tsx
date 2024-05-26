@@ -69,6 +69,7 @@ const Header = () => {
               w={"60px"}
               h={"60px"}
               mt={2}
+              ml={isLargerThan768 ? 20 : 0}
               src={colorMode === "dark" ? "/light-logo.svg" : "/dark-logo.svg"}
               onClick={toggleColorMode}
             />

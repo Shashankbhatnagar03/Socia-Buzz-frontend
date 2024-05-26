@@ -72,14 +72,12 @@ const CreatePost = () => {
     } catch (error) {
       toast("Error", "Failed to create a post", "error");
     } finally {
-      setLoading(true);
+      setLoading(false);
     }
   };
   const handleTextChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const inputText = e.target.value;
-    // console.log(inputText.length);
     if (inputText.length > MAX_CHAR) {
-      // console.log(inputText);
       const truncatedText = inputText.slice(0, MAX_CHAR);
       setPostText(truncatedText);
       setRemainingChar(0);

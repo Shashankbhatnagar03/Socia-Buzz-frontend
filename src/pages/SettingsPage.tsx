@@ -61,7 +61,6 @@ const SettingsPage = () => {
           size="lg"
           colorScheme={"red"}
           variant="outline"
-          // onClick={freezeAccount}
           onClick={onOpen}
         >
           Freeze

@@ -21,7 +21,6 @@ const HomePage = () => {
         if (data.error) {
           toast("Error", data.error, "error");
         }
-        // console.log(data, "sssd");
         setPosts(data);
       } catch (error) {
         toast("Error", "Error will fetching feeds", "error");
@@ -31,7 +30,6 @@ const HomePage = () => {
     };
     getFeedPosts();
   }, [toast, setPosts]);
-  // console.log(posts, "sd");
   return (
     <>
       <Flex gap={10} alignItems={"flex-start"}>

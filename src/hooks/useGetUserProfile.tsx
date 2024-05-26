@@ -14,7 +14,6 @@ const useGetUserProfile = () => {
       try {
         const res = await fetch(`/api/v1/users/profile/${username}`);
         const data = await res.json();
-        // console.log(data);
         if (data.error) {
           toast("Error", data.error, "error");
           return;

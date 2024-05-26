@@ -6,13 +6,13 @@ import userAtom from "../atoms/userAtom";
 
 import { BsCheck2All } from "react-icons/bs";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 const Message = ({ message, ownMessage }: IMessageProps) => {
-  // console.log(ownMessage);
-  // console.log(message);
   const selectedConversation = useRecoilValue(seletedConversationAtom);
   const user = useRecoilValue(userAtom);
   const [imgLoaded, setImgLoaded] = useState<boolean>(false);
+
   return (
     <>
       {ownMessage ? (
@@ -57,12 +57,15 @@ const Message = ({ message, ownMessage }: IMessageProps) => {
               </Box>
             </Flex>
           )}
-
-          <Avatar src={user.profilePic} w="7" h={7} />
+          <Link to={`/${user.username}`}>
+            <Avatar src={user.profilePic} w="7" h={7} />
+          </Link>
         </Flex>
       ) : (
         <Flex gap={2}>
-          <Avatar src={selectedConversation.userProfilepic} w="7" h={7} />
+          <Link to={`/${user.username}`}>
+            <Avatar src={selectedConversation.userProfilepic} w="7" h={7} />
+          </Link>
 
           {message.text && (
             <Text

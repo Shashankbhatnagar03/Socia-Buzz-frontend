@@ -15,9 +15,7 @@ import FollowerAndFollowingPage from "./pages/FollowerAndFollowingPage";
 import SearchPage from "./pages/SearchPage";
 
 function App() {
-  // const { pathname } = useLocation();
   const user = useRecoilValue(userAtom);
-  // console.log(user);
   return (
     <>
       <Box position={"relative"} w="full">

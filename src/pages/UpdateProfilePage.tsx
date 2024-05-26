@@ -29,14 +29,12 @@ export default function UpdateProfilePage() {
   const [updating, setUpdating] = useState<boolean>(false);
   const toast = useShowToast();
   const { handleImageChange, imgUrl } = usePreviewImg();
-  // console.log(user, "rer");
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (updating) return;
 
     setUpdating(true);
     try {
-      // console.log(inputs);
       const res = await fetch(`/api/v1/users/update/${user._id}`, {
         method: "PUT",
         headers: {
@@ -45,7 +43,6 @@ export default function UpdateProfilePage() {
         body: JSON.stringify({ ...inputs, profilePic: imgUrl }),
       });
       const data = await res.json();
-      // console.log(data);
       if (data.error) {
         toast("Error", data.error, "error");
         return;

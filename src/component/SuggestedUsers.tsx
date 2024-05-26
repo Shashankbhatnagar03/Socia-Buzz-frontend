@@ -4,8 +4,6 @@ import SuggestedUser from "./SuggestedUser";
 import useShowToast from "../hooks/useShowToast";
 import { IUser } from "../types/types";
 
-// interface SuggestedUserProps {}
-
 const SuggestedUsers = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [suggestedUsers, setSuggestedUsers] = useState<IUser[]>([]);
@@ -29,7 +27,6 @@ const SuggestedUsers = () => {
     };
     getSuggestedUsers();
   }, [toast]);
-  // console.log(suggestedUsers, "suggestedUsersb");
 
   return (
     <>

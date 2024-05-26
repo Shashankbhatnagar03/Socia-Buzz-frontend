@@ -12,7 +12,6 @@ const useGetBulkUsersDetails = () => {
         setBulkUsersLoading(true);
         const res = await fetch(`/api/v1/users/profiles/bulk`);
         const data = await res.json();
-        // console.log(data);
         if (data.error) {
           toast("Error", data.error, "error");
           return;

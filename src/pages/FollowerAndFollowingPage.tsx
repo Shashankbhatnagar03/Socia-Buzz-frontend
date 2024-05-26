@@ -14,7 +14,6 @@ const FollowerAndFollowingPage = () => {
   const [followersOrFollowing, setFollowersOrFollowing] = useState<string>(
     lastSegment === "followers" ? "followers" : "followings"
   );
-  // const [user, setUser] = useState<IUser | null>(null);
 
   const { user, loading } = useGetUserProfile();
 

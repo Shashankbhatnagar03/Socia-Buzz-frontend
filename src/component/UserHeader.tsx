@@ -24,11 +24,9 @@ import useFollowUnfollow from "../hooks/useFollowUnfollow";
 
 const UserHeader = ({ user }: IUserHeaderProps) => {
   const toast = useShowToast();
-  //   console.log(user);
   const currentUser = useRecoilValue(userAtom);
   const { handleFollowUnfollow, updating, following } = useFollowUnfollow(user);
   const color = useColorModeValue("gray.light", "grey.dark");
-  //   console.log(following);
   const copyUrl = () => {
     const currentUrl = window.location.href;
     navigator.clipboard.writeText(currentUrl).then(() => {

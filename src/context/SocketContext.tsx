@@ -30,7 +30,7 @@ export const SocketContextProvider = ({
       setSocket(newSocket);
 
       newSocket.on("getOnlineUsers", (data: string[]) => {
-        console.log(data);
+        // console.log(data);
         setOnlineUsers(data);
       });
 
@@ -39,7 +39,6 @@ export const SocketContextProvider = ({
       };
     }
   }, [user]);
-  console.log("onlineUsers", onlineUsers);
 
   return (
     <SocketContext.Provider value={{ socket, onlineUsers }}>

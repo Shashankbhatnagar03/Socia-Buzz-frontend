@@ -18,14 +18,11 @@ const Post = ({ post, userId }: UserPagePostProps) => {
   const navigate = useNavigate();
   const [posts, setPosts] = useRecoilState(postsAtom);
 
-  // console.log(userId);
-
   useEffect(() => {
     const getUser = async () => {
       try {
         const res = await fetch("/api/v1/users/profile/" + userId);
         const data = await res.json();
-        // console.log(data, "maks");
         if (data.error) {
           toast("Error", data.error, "error");
           return;
@@ -40,7 +37,6 @@ const Post = ({ post, userId }: UserPagePostProps) => {
   }, [userId, toast]);
 
   if (!user) return null;
-  // console.log(post.createdAt, "Sss");
 
   const handleDeletePost: MouseEventHandler<HTMLDivElement> = async (e) => {
     try {
@@ -143,24 +139,9 @@ const Post = ({ post, userId }: UserPagePostProps) => {
                   <DeleteIcon cursor={"pointer"} bgSize={20} />
                 </div>
               )}
-
-              {/* do below implementation  */}
-              {/* <Box className='icon-container' >
-                    <Menu>
-                        <MenuButton>
-                        <BsThreeDots cursor={"pointer"}/>
-                        </MenuButton>
-                        <Portal>
-                            <MenuList bg={"grey.dark"}>
-                                <MenuItem bg={"grey.dark"} >Copy Link</MenuItem>
-                            </MenuList>
-                        </Portal>
-                    </Menu>
-
-                </Box> */}
             </Flex>
           </Flex>
-          <Text fontSize={"sm"}>{post.text}</Text>
+          {post.text.length > 0 && <Text fontSize={"sm"}>{post.text}</Text>}
           {post.img && (
             <Box
               borderRadius={6}

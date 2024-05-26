@@ -6,7 +6,6 @@ const usePreviewImg = () => {
   const toast = useShowToast();
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    // console.log(file);
     if (file && file.type.startsWith("image/")) {
       const reader = new FileReader();
 
@@ -20,7 +19,6 @@ const usePreviewImg = () => {
       setImgUrl("");
     }
   };
-  //   console.log(imgUrl);
   return { handleImageChange, imgUrl, setImgUrl };
 };
 

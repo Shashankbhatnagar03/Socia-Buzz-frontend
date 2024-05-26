@@ -38,16 +38,7 @@ const FollowerAndFollowingContainer = ({
           </Link>
         </Box>
         {currentUser._id !== user._id && (
-          <Box
-            alignContent={"center"}
-            ml={"7"}
-            // position={"revert-layer"}.
-            // justifyContent={"flex-end"}
-            // position={"absolute"}
-            // flexWrap={"inherit"}
-            // right={"35%"}
-            // overflowY={"auto"}
-          >
+          <Box alignContent={"center"} ml={"7"}>
             <Button
               size={"sm"}
               color={following ? "black" : "white"}

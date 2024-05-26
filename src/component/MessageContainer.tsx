@@ -13,7 +13,7 @@ import Message from "./Message";
 import MessageInput from "./MessageInput";
 import { useEffect, useRef, useState } from "react";
 import useShowToast from "../hooks/useShowToast";
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import {
   conversationsAtom,
   seletedConversationAtom,
@@ -22,6 +22,7 @@ import { IMessage } from "../types/types";
 import userAtom from "../atoms/userAtom";
 import { useSocket } from "../context/SocketContext";
 import messageNotificationSound from "../assets//sounds/messageNotification.mp3";
+import { Link } from "react-router-dom";
 
 const MessageContainer = () => {
   const toast = useShowToast();
@@ -30,12 +31,11 @@ const MessageContainer = () => {
   const [messages, setMessages] = useState<IMessage[]>([]);
   const currentUser = useRecoilValue(userAtom);
   const { socket, onlineUsers } = useSocket();
-  const setConversations = useSetRecoilState(conversationsAtom);
+  const [conversations, setConversations] = useRecoilState(conversationsAtom);
   const messageEndRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     if (socket) {
       socket.on("newMessage", (message) => {
-        // console.log(message);
         if (selectedConversation._id === message.conversationId) {
           setMessages((prev) => [...prev, message]);
         }
@@ -44,8 +44,6 @@ const MessageContainer = () => {
           const sound = new Audio(messageNotificationSound);
           sound.play();
         }
-
-        // console.log(messages, "s");
 
         setConversations((prev) => {
           const updatedConversations = prev.map((conversation) => {
@@ -85,6 +83,21 @@ const MessageContainer = () => {
           conversationId: selectedConversation._id,
           userId: selectedConversation.userId,
         });
+        setConversations((prev) => {
+          const updatedConversations = prev.map((conversation) => {
+            if (conversation._id === selectedConversation._id) {
+              return {
+                ...conversation,
+                lastMessage: {
+                  ...conversation.lastMessage,
+                  seen: true,
+                },
+              };
+            }
+            return conversation;
+          });
+          return updatedConversations;
+        });
       }
     }
     socket?.on("messageSeen", ({ conversationId }) => {
@@ -100,26 +113,39 @@ const MessageContainer = () => {
         });
       }
     });
-  }, [socket, currentUser._id, messages, selectedConversation]);
+  }, [
+    socket,
+    currentUser._id,
+    messages,
+    selectedConversation,
+    setConversations,
+  ]);
 
   useEffect(() => {
     const getMessages = async () => {
       setLoadingMessages(true);
       setMessages([]);
       try {
-        if (selectedConversation.mock) return;
+        if (
+          conversations.find(
+            (conversation) =>
+              conversation._id === selectedConversation._id &&
+              conversation.mock === true
+          )
+        ) {
+          return;
+        }
+
         const res = await fetch(
           `/api/v1/messages/${selectedConversation.userId}`
         );
         const data = await res.json();
-        if (data.error) {
+        if (data.error && !selectedConversation.mock) {
           toast("Error", data.error, "error");
           return;
         }
 
-        // console.log(data, "message");
         setMessages(data);
-        // console.log(setMessages)
       } catch (error) {
         toast("Error", "Something went wrong will fetching messages", "error");
       } finally {
@@ -127,7 +153,6 @@ const MessageContainer = () => {
       }
     };
     getMessages();
-    // console.log(setMessages);
   }, [toast, selectedConversation]);
   return (
     <Flex
@@ -138,17 +163,22 @@ const MessageContainer = () => {
       p={2}
     >
       <Flex w={"full"} h={12} alignItems={"center"} gap={"2"}>
-        <Avatar src={selectedConversation.userProfilepic} size={"sm"}>
-          {onlineUsers.includes(selectedConversation.userId) ? (
-            <AvatarBadge boxSize={"1em"} bg={"green.500"} />
-          ) : (
-            ""
-          )}
-        </Avatar>
-        <Text display={"flex"} alignItems={"center"}>
-          {selectedConversation.username}{" "}
-          <Image src="/verified.png" w={4} h={4} ml={1} />
-        </Text>
+        <Link to={`/${selectedConversation.username}`}>
+          <Avatar src={selectedConversation.userProfilepic} size={"sm"}>
+            {onlineUsers.includes(selectedConversation.userId) ? (
+              <AvatarBadge boxSize={"1em"} bg={"green.500"} />
+            ) : (
+              ""
+            )}
+          </Avatar>
+        </Link>
+
+        <Link to={`/${selectedConversation.username}`}>
+          <Text display={"flex"} alignItems={"center"} cursor={"pointer"}>
+            {selectedConversation.username}{" "}
+            <Image src="/verified.png" w={4} h={4} ml={1} />
+          </Text>
+        </Link>
       </Flex>
       <Divider />
 

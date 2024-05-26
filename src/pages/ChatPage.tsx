@@ -12,7 +12,6 @@ import {
   useColorMode,
 } from "@chakra-ui/react";
 import Conversation from "../component/Conversation";
-import { SiWechat } from "react-icons/si";
 import MessageContainer from "../component/MessageContainer";
 import { EventHandler, useEffect, useState } from "react";
 import useShowToast from "../hooks/useShowToast";
@@ -45,8 +44,19 @@ const ChatPage = () => {
 
   const currentUser = useRecoilValue(userAtom);
   const { socket, onlineUsers } = useSocket();
+
   useEffect(() => {
-    socket?.on("messagesSeen", ({ conversationId }) => {
+    setSelectedConversation({
+      mock: false,
+      _id: "",
+      userId: "",
+      username: "",
+      userProfilepic: "",
+    });
+  }, []);
+
+  useEffect(() => {
+    socket?.on("messageSeen", ({ conversationId }) => {
       setConversations((prev) => {
         const updatedConversations = prev.map((conversation) => {
           if (conversation._id === conversationId) {
@@ -63,7 +73,7 @@ const ChatPage = () => {
         return updatedConversations;
       });
     });
-  }, [socket, setConversations]);
+  }, [socket, setConversations, conversations]);
   useEffect(() => {
     const getConversation = async () => {
       setLoadingConversations(true);
@@ -75,7 +85,6 @@ const ChatPage = () => {
           return;
         }
 
-        // console.log(data);
         setConversations(data);
       } catch (error) {
         toast(
@@ -95,15 +104,6 @@ const ChatPage = () => {
     const filteredConversation = async () => {
       setLoadingConversationsTemp(true);
       try {
-        // const res = await fetch(
-        //   `/api/v1/users/profiles/bulk/?filter=${filter}`
-        // );
-        // const data = await res.json();
-        // if (data.error) {
-        //   toast("Error", "No conversation found", "error");
-        //   return;
-        // }
-
         const filteredConversations = conversations.filter((conversation) => {
           const conversationUser = conversation.participants[0].username;
           return conversationUser.startsWith(filter);
@@ -152,29 +152,12 @@ const ChatPage = () => {
         });
         return;
       }
-      // const mockConversation = {
-      // 	mock: true,
-      // 	lastMessage: {
-      // 		text: "",
-      // 		sender: "",
-      // 	},
-      // 	_id: Date.now(),
-      // 	participants: [
-      // 		{
-      // 			_id: searchedUser._id,
-      // 			username: searchedUser.username,
-      // 			profilePic: searchedUser.profilePic,
-      // 		},
-      // 	],
-      // };
-      // setConversations((prevConvs) => [...prevConvs, mockConversation]);
     } catch (error) {
       toast("Error", "Something went wrong ", "error");
     } finally {
       setSearchingUser(false);
     }
   };
-
   if (!conversations) return;
   return (
     <Box
@@ -198,7 +181,7 @@ const ChatPage = () => {
         mx={"auto"}
       >
         <Flex
-          flex={30}
+          flex={35}
           gap={2}
           flexDirection={"column"}
           maxW={{
@@ -208,7 +191,8 @@ const ChatPage = () => {
           mx={"auto"}
         >
           <Text
-            fontWeight={700}
+            fontWeight={"bold"}
+            fontSize={"lg"}
             color={colorMode === "light" ? "grey.dark" : "grey.200"}
           >
             Your conversation
@@ -228,6 +212,7 @@ const ChatPage = () => {
                   }
                 />
                 <Input
+                  borderRadius={"full"}
                   type="text"
                   placeholder="Search for a user"
                   onChange={(e) => {
@@ -245,19 +230,27 @@ const ChatPage = () => {
           {!loadingConversations &&
             !loadingConversationsTemp &&
             conversationsTemp.length > 0 &&
-            conversationsTemp.map((conversation) => (
-              <Conversation
-                key={conversation._id}
-                conversation={conversation}
-                isOnline={onlineUsers.includes(
-                  conversation.participants[0]._id
-                )}
-              />
-            ))}
-          {/* {!loadingConversations && conversations.length == 0 && <NewMessage />} */}
+            conversationsTemp.map((conversation) => {
+              return (
+                <Conversation
+                  key={conversation._id}
+                  conversation={conversation}
+                  isOnline={onlineUsers.includes(
+                    conversation.participants[0]._id
+                  )}
+                />
+              );
+            })}
           {!loadingConversations &&
             !loadingConversationsTemp &&
-            conversationsTemp.length === 0 && <NewMessage />}
+            conversationsTemp.length === 0 && (
+              <Flex direction="column" align="center">
+                <Text mb={4} mt={4}>
+                  No Conversation Found
+                </Text>
+                <NewMessage />
+              </Flex>
+            )}
           {(loadingConversations || loadingConversationsTemp) &&
             [0, 1, 2, 3, 4].map((_, i) => (
               <Flex
@@ -279,18 +272,25 @@ const ChatPage = () => {
         </Flex>
         {!selectedConversation._id && (
           <Flex
-            flex={70}
+            flex={65}
             borderRadius={"md"}
             p={2}
             flexDir={"column"}
-            alignItems={"center"}
-            justifyContent={"center"}
+            ml={"20"}
+            mt={"10"}
             height={"400px"}
+            gap={2}
           >
-            <SiWechat size={100} />
-            <Text fontSize={"20"}>
-              Select a conversation to start messaging{" "}
+            <Text fontSize={"32"} fontWeight={"bold"}>
+              Select a conversation{" "}
             </Text>
+            <Text color={"grey.light"}>
+              Choose from your existing conversations, start a new one, or just
+              keep swimming.
+            </Text>
+            <Box mt={5}>
+              <NewMessage />
+            </Box>
           </Flex>
         )}
         {selectedConversation._id && <MessageContainer />}

@@ -4,7 +4,6 @@ import {
   Box,
   Button,
   Divider,
-  Flex,
   Image,
   Input,
   InputGroup,
@@ -20,7 +19,7 @@ import {
   VStack,
   useDisclosure,
 } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import useShowToast from "../hooks/useShowToast";
 import {
   conversationsAtom,
@@ -117,60 +116,57 @@ const NewMessage = () => {
 
   return (
     <>
-      <Flex direction="column" align="center">
-        <Text mb={4} mt={4}>
-          No Conversation Found
-        </Text>
-        <Button
-          colorScheme="teal"
-          size="md"
-          borderRadius={"full"}
-          onClick={onOpen}
-        >
-          Start New Message
-        </Button>
+      <Button
+        colorScheme="teal"
+        size="md"
+        borderRadius={"full"}
+        onClick={onOpen}
+      >
+        Start New Message
+      </Button>
 
-        <Modal isOpen={isOpen} onClose={onClose}>
-          <ModalOverlay />
-          <ModalContent boxSize={"xl"} maxW={"80%"}>
-            <ModalHeader textAlign={"center"}>New Message</ModalHeader>
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent boxSize={"xl"} maxW={"80%"}>
+          <ModalHeader textAlign={"center"}>New Message</ModalHeader>
 
-            <ModalCloseButton />
-            <ModalBody>
-              <Box>
-                <form>
-                  <InputGroup>
-                    <InputLeftElement
-                      cursor={"pointer"}
-                      children={
-                        loading ? (
-                          <Spinner size={"sm"} />
-                        ) : (
-                          <SearchIcon color="gray.300" />
-                        )
-                      }
-                    />
-                    <Input
-                      type="text"
-                      placeholder="Search for a user"
-                      focusBorderColor="teal.400"
-                      borderColor="gray.300"
-                      size="md"
-                      borderRadius={"full"}
-                      onChange={(e) => {
-                        setFilter(e.target.value);
-                      }}
-                    />
-                  </InputGroup>
-                </form>
-                <Divider my={4} />
+          <ModalCloseButton />
+          <ModalBody>
+            <Box>
+              <form>
+                <InputGroup>
+                  <InputLeftElement
+                    cursor={"pointer"}
+                    children={
+                      loading ? (
+                        <Spinner size={"sm"} />
+                      ) : (
+                        <SearchIcon color="gray.300" />
+                      )
+                    }
+                  />
+                  <Input
+                    type="text"
+                    placeholder="Search for a user"
+                    focusBorderColor="teal.400"
+                    borderColor="gray.300"
+                    size="md"
+                    borderRadius={"full"}
+                    onChange={(e) => {
+                      setFilter(e.target.value);
+                    }}
+                  />
+                </InputGroup>
+              </form>
+              <Divider my={4} />
 
-                <Box maxHeight="400px" overflowY="auto">
-                  <VStack spacing={7} alignItems={"start"}>
-                    {users &&
-                      users.map((user) => {
-                        return (
-                          <>
+              <Box maxHeight="400px" overflowY="auto">
+                <VStack spacing={7} alignItems={"start"}>
+                  {users &&
+                    users.map((user) => {
+                      return (
+                        <>
+                          <Fragment key={user._id}>
                             <Box
                               onClick={() => handleUserClick(user)}
                               cursor={"pointer"}
@@ -189,16 +185,16 @@ const NewMessage = () => {
                                 <Image src="/verified.png" w={4} h={4} mb={6} />
                               </Box>
                             </Box>
-                          </>
-                        );
-                      })}
-                  </VStack>
-                </Box>
+                          </Fragment>
+                        </>
+                      );
+                    })}
+                </VStack>
               </Box>
-            </ModalBody>
-          </ModalContent>
-        </Modal>
-      </Flex>
+            </Box>
+          </ModalBody>
+        </ModalContent>
+      </Modal>
     </>
   );
 };

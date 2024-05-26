@@ -27,6 +27,8 @@ import useLogout from "../hooks/useLogout";
 import { LuMessagesSquare } from "react-icons/lu";
 import { useEffect, useState } from "react";
 import { conversationsAtom } from "../atoms/messagesAtom";
+import { useSocket } from "../context/SocketContext";
+import messageNotificationSound from "../assets//sounds/messageNotification.mp3";
 const Header = () => {
   const { colorMode, toggleColorMode } = useColorMode();
   const user = useRecoilValue(userAtom);
@@ -39,8 +41,39 @@ const Header = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [conversations, setConversations] = useRecoilState(conversationsAtom);
   const [unreadMessages, setUnreadMessages] = useState<number>(0);
-  // const currentUser = useRecoilValue(userAtom);
+  const { socket } = useSocket();
+  useEffect(() => {
+    if (user) {
+      socket?.on("newMessage", (message) => {
+        // console.log("sdf");
 
+        if (!document.hasFocus()) {
+          const sound = new Audio(messageNotificationSound);
+          sound.play();
+        }
+
+        setConversations((prev) => {
+          const updatedConversations = prev.map((conversation) => {
+            if (conversation._id === message.conversationId) {
+              return {
+                ...conversation,
+                lastMessage: {
+                  text: message.text,
+                  sender: message.sender,
+                  seen: false,
+                },
+              };
+            }
+            return conversation;
+          });
+          return updatedConversations;
+        });
+      });
+      return () => {
+        socket?.off("newMessage");
+      };
+    }
+  }, [socket, setConversations, conversations, user]);
   useEffect(() => {
     if (user) {
       const getConversation = async () => {

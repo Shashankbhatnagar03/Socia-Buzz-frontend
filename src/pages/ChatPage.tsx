@@ -24,6 +24,7 @@ import userAtom from "../atoms/userAtom";
 import { IConversation } from "../types/types";
 import { useSocket } from "../context/SocketContext";
 import NewMessage from "../component/NewMessage";
+import messageNotificationSound from "../assets//sounds/messageNotification.mp3";
 
 const ChatPage = () => {
   const { colorMode } = useColorMode();
@@ -54,7 +55,36 @@ const ChatPage = () => {
       userProfilepic: "",
     });
   }, []);
+  useEffect(() => {
+    socket?.on("newMessage", (message) => {
+      // console.log("sdf");
 
+      if (!document.hasFocus()) {
+        const sound = new Audio(messageNotificationSound);
+        sound.play();
+      }
+
+      setConversations((prev) => {
+        const updatedConversations = prev.map((conversation) => {
+          if (conversation._id === message.conversationId) {
+            return {
+              ...conversation,
+              lastMessage: {
+                text: message.text,
+                sender: message.sender,
+                seen: false,
+              },
+            };
+          }
+          return conversation;
+        });
+        return updatedConversations;
+      });
+    });
+    return () => {
+      socket?.off("newMessage");
+    };
+  }, [socket, setConversations]);
   useEffect(() => {
     socket?.on("messageSeen", ({ conversationId }) => {
       setConversations((prev) => {

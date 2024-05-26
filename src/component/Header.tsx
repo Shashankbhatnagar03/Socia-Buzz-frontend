@@ -15,8 +15,9 @@ import {
   DrawerCloseButton,
   useDisclosure,
   Text,
+  Badge,
 } from "@chakra-ui/react";
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import userAtom from "../atoms/userAtom";
 import { Link as RouterLink } from "react-router-dom";
 import { AiFillHome, AiOutlineMenu } from "react-icons/ai";
@@ -24,7 +25,8 @@ import { RxAvatar } from "react-icons/rx";
 import { FiLogOut, FiSearch, FiSettings } from "react-icons/fi";
 import useLogout from "../hooks/useLogout";
 import { LuMessagesSquare } from "react-icons/lu";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { conversationsAtom } from "../atoms/messagesAtom";
 const Header = () => {
   const { colorMode, toggleColorMode } = useColorMode();
   const user = useRecoilValue(userAtom);
@@ -35,6 +37,44 @@ const Header = () => {
   };
   const [isLargerThan768] = useMediaQuery("(min-width: 768px)");
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [conversations, setConversations] = useRecoilState(conversationsAtom);
+  const [unreadMessages, setUnreadMessages] = useState<number>(0);
+  // const currentUser = useRecoilValue(userAtom);
+
+  useEffect(() => {
+    if (user) {
+      const getConversation = async () => {
+        // setLoadingConversations(true);
+        try {
+          const res = await fetch("/api/v1/messages/conversations");
+          const data = await res.json();
+          if (data.error) {
+            return;
+          }
+
+          setConversations(data);
+        } catch (error) {
+          console.log(error as string);
+          return;
+        }
+      };
+
+      getConversation();
+      console.log(1);
+    }
+  }, [setConversations, user]);
+  useEffect(() => {
+    if (user) {
+      const unreadConversationsCount = conversations.filter(
+        (conversation) =>
+          !conversation.lastMessage.seen &&
+          conversation.lastMessage.sender !== user?._id &&
+          !conversation.mock
+      ).length;
+      // console.log(unreadConversationsCount);
+      setUnreadMessages(unreadConversationsCount);
+    }
+  }, [conversations, user]);
 
   return (
     <>
@@ -107,6 +147,19 @@ const Header = () => {
                     borderRadius={"full"}
                   >
                     <LuMessagesSquare size={24} cursor={"pointer"} />
+                    {unreadMessages > 0 ? (
+                      <Badge
+                        position={"absolute"}
+                        top={-1}
+                        right={-1}
+                        borderRadius={"full"}
+                        colorScheme="red"
+                      >
+                        {unreadMessages}{" "}
+                      </Badge>
+                    ) : (
+                      ""
+                    )}
                   </Button>
                 </Link>
                 <Link as={RouterLink} to={`/settings`}>
@@ -230,6 +283,19 @@ const Header = () => {
                                   size={28}
                                   cursor={"pointer"}
                                 />
+                                {unreadMessages > 0 ? (
+                                  <Badge
+                                    position={"absolute"}
+                                    top={-1}
+                                    right={-1}
+                                    borderRadius={"full"}
+                                    colorScheme="red"
+                                  >
+                                    {unreadMessages}{" "}
+                                  </Badge>
+                                ) : (
+                                  ""
+                                )}
                               </Button>
                             </Link>
                             <Link

@@ -16,3 +16,8 @@ export const seletedConversationAtom = atom({
     userProfilepic: "",
   },
 });
+
+export const unreadMessagesAtom = atom({
+  key: "unreadMessagesAtom",
+  default: 0,
+});

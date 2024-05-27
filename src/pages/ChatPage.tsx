@@ -134,6 +134,7 @@ const ChatPage = () => {
     const filteredConversation = async () => {
       setLoadingConversationsTemp(true);
       try {
+        // console.log(conversations);
         const filteredConversations = conversations.filter((conversation) => {
           const conversationUser = conversation.participants[0].username;
           return conversationUser.startsWith(filter);

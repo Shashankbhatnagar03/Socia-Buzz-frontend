@@ -17,6 +17,7 @@ import {
   Spinner,
   Text,
   VStack,
+  useColorMode,
   useDisclosure,
 } from "@chakra-ui/react";
 import { Fragment, useEffect, useState } from "react";
@@ -40,6 +41,7 @@ const NewMessage = () => {
   const [users, setUser] = useState<IUser[]>([]);
   const toast = useShowToast();
   const [filter, setFilter] = useState<string>("");
+  const { colorMode } = useColorMode();
 
   useEffect(() => {
     const filteredConversation = async () => {
@@ -113,7 +115,6 @@ const NewMessage = () => {
       toast("Error", "Something went wrong", "error");
     }
   };
-
   return (
     <>
       <Button
@@ -127,7 +128,16 @@ const NewMessage = () => {
 
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
-        <ModalContent boxSize={"xl"} maxW={"80%"}>
+        <ModalContent
+          boxSize={"xl"}
+          maxW={"80%"}
+          bg={
+            colorMode === "dark"
+              ? "rgba(16, 16, 16, 0.6)"
+              : "rgba(237, 242, 247, 0.6)"
+          }
+          backdropFilter="blur(25px)"
+        >
           <ModalHeader textAlign={"center"}>New Message</ModalHeader>
 
           <ModalCloseButton />

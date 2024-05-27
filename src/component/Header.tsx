@@ -93,7 +93,6 @@ const Header = () => {
       };
 
       getConversation();
-      console.log(1);
     }
   }, [setConversations, user]);
   useEffect(() => {

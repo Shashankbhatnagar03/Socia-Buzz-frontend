@@ -21,7 +21,7 @@ const UserPage: React.FC = () => {
         setFetchingPosts(true);
         const res = await fetch(`/api/v1/posts/user/${username}`);
         const data = await res.json();
-        console.log(data);
+        // console.log(data);
         if (data.error) {
           toast("Error", data.error, "error");
           return;

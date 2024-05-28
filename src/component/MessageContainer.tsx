@@ -137,7 +137,7 @@ const MessageContainer = () => {
         }
 
         const res = await fetch(
-          `/api/v1/messages/${selectedConversation.userId}`
+          `https://sociabuzz-backend.onrender.com/api/v1/messages/${selectedConversation.userId}`
         );
         const data = await res.json();
         if (data.error && !selectedConversation.mock) {

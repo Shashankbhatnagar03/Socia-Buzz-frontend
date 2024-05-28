@@ -20,12 +20,15 @@ const useFollowUnfollow = (user: IUser) => {
     if (updating) return;
     setUpdating(true);
     try {
-      const res = await fetch(`/api/v1/users/follow/${user._id}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const res = await fetch(
+        `https://sociabuzz-backend.onrender.com/api/v1/users/follow/${user._id}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
       const data = await res.json();
       if (data.error) {

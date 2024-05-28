@@ -108,7 +108,9 @@ const ChatPage = () => {
     const getConversation = async () => {
       setLoadingConversations(true);
       try {
-        const res = await fetch("/api/v1/messages/conversations");
+        const res = await fetch(
+          "https://sociabuzz-backend.onrender.com/api/v1/messages/conversations"
+        );
         const data = await res.json();
         if (data.error) {
           toast("Error", data.error, "error");
@@ -157,7 +159,9 @@ const ChatPage = () => {
     e.preventDefault();
     setSearchingUser(true);
     try {
-      const res = await fetch(`/api/v1/users/profile/${searchText}`);
+      const res = await fetch(
+        `https://sociabuzz-backend.onrender.com/api/v1/users/profile/${searchText}`
+      );
       const searchedUser = await res.json();
       if (searchedUser.error) {
         toast("Error", searchedUser.error, "error");

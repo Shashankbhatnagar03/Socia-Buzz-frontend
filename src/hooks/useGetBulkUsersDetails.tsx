@@ -10,7 +10,9 @@ const useGetBulkUsersDetails = () => {
     const getBulkUsersDetails = async () => {
       try {
         setBulkUsersLoading(true);
-        const res = await fetch(`/api/v1/users/profiles/bulk`);
+        const res = await fetch(
+          `https://sociabuzz-backend.onrender.com/api/v1/users/profiles/bulk`
+        );
         const data = await res.json();
         if (data.error) {
           toast("Error", data.error, "error");

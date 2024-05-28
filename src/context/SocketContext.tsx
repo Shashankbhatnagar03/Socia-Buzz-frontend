@@ -21,7 +21,7 @@ export const SocketContextProvider = ({
   const [onlineUsers, setOnlineUsers] = useState<string[]>([]);
   useEffect(() => {
     if (user) {
-      const newSocket = io("http://localhost:5000", {
+      const newSocket = io("https://sociabuzz-backend.onrender.com", {
         query: {
           userId: user._id,
         },

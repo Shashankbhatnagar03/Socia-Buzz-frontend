@@ -12,6 +12,7 @@ import {
   ModalOverlay,
   Text,
   Textarea,
+  useColorMode,
   useDisclosure,
 } from "@chakra-ui/react";
 import { useState } from "react";
@@ -32,6 +33,7 @@ const Icons = ({ post }: IconsProps) => {
   const [reply, setReply] = useState<string>("");
   const toast = useShowToast();
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { colorMode } = useColorMode();
 
   const handleLikeAndUnlike = async () => {
     if (!user)
@@ -41,12 +43,15 @@ const Icons = ({ post }: IconsProps) => {
 
     setIsLiking(true);
     try {
-      const res = await fetch("/api/v1/posts/like/" + post._id, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const res = await fetch(
+        "https://sociabuzz-backend.onrender.com/api/v1/posts/like/" + post._id,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
       const data = await res.json();
       if (data.error) return toast("Error", data.error, "error");
 
@@ -89,13 +94,16 @@ const Icons = ({ post }: IconsProps) => {
 
     setIsReplying(true);
     try {
-      const res = await fetch("/api/v1/posts/reply/" + post._id, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ text: reply }),
-      });
+      const res = await fetch(
+        "https://sociabuzz-backend.onrender.com/api/v1/posts/reply/" + post._id,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ text: reply }),
+        }
+      );
 
       const data = await res.json();
       if (data.error) return toast("Error", data.error, "error");
@@ -184,7 +192,14 @@ const Icons = ({ post }: IconsProps) => {
 
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
-        <ModalContent>
+        <ModalContent
+          bg={
+            colorMode === "dark"
+              ? "rgba(16, 16, 16, 0.6)"
+              : "rgba(237, 242, 247, 0.6)"
+          }
+          backdropFilter="blur(25px)"
+        >
           <ModalHeader></ModalHeader>
           <ModalCloseButton size={"sm"} />
           <ModalBody pb={6}>

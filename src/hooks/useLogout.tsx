@@ -9,12 +9,15 @@ const useLogout = () => {
   const navigate = useNavigate();
   const logout = async () => {
     try {
-      const res = await fetch("/api/v1/users/logout", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const res = await fetch(
+        "https://sociabuzz-backend.onrender.com/api/v1/users/logout",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
       const data = await res.json();
       if (data.error) {
         toast("Error", data.error, "error");

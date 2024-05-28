@@ -6,8 +6,11 @@ import Post from "../component/Post";
 import { useRecoilState } from "recoil";
 import postsAtom from "../atoms/postsAtom";
 import SuggestedUsers from "../component/SuggestedUsers";
+import useGetBulkUsersDetails from "../hooks/useGetBulkUsersDetails";
+import { PostType } from "../types/types";
 
 const HomePage = () => {
+  const { bulkUser } = useGetBulkUsersDetails();
   const [posts, setPosts] = useRecoilState(postsAtom);
   const [loading, setLoading] = useState<boolean>(true);
   const toast = useShowToast();
@@ -16,12 +19,20 @@ const HomePage = () => {
       setLoading(true);
       setPosts([]);
       try {
-        const res = await fetch("/api/v1/posts/feed");
+        const res = await fetch(
+          "https://sociabuzz-backend.onrender.com/api/v1/posts/feed"
+        );
         const data = await res.json();
         if (data.error) {
           toast("Error", data.error, "error");
         }
-        setPosts(data);
+
+        const filteredPosts = data.filter((post: PostType) =>
+          bulkUser.some((user) => user._id === post.postedBy && !user.isFrozen)
+        );
+        // console.log(data);
+        // console.log(filteredPosts);
+        setPosts(filteredPosts);
       } catch (error) {
         toast("Error", "Error will fetching feeds", "error");
       } finally {
@@ -29,7 +40,7 @@ const HomePage = () => {
       }
     };
     getFeedPosts();
-  }, [toast, setPosts]);
+  }, [toast, setPosts, bulkUser]);
   return (
     <>
       <Flex gap={10} alignItems={"flex-start"}>

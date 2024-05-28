@@ -29,7 +29,7 @@ const SearchPage = () => {
       setLoading(true);
       try {
         const res = await fetch(
-          `/api/v1/users/profiles/bulk/?filter=${filter}`
+          `https://sociabuzz-backend.onrender.com/api/v1/users/profiles/bulk/?filter=${filter}`
         );
         let data = await res.json();
         if (data.error) {

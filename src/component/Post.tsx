@@ -21,7 +21,10 @@ const Post = ({ post, userId }: UserPagePostProps) => {
   useEffect(() => {
     const getUser = async () => {
       try {
-        const res = await fetch("/api/v1/users/profile/" + userId);
+        const res = await fetch(
+          "https://sociabuzz-backend.onrender.com/api/v1/users/profile/" +
+            userId
+        );
         const data = await res.json();
         if (data.error) {
           toast("Error", data.error, "error");
@@ -43,9 +46,12 @@ const Post = ({ post, userId }: UserPagePostProps) => {
       e.preventDefault();
       if (!window.confirm("Are you sure you want to delete this post?")) return;
 
-      const res = await fetch(`/api/v1/posts/${post._id}`, {
-        method: "DELETE",
-      });
+      const res = await fetch(
+        `https://sociabuzz-backend.onrender.com/api/v1/posts/${post._id}`,
+        {
+          method: "DELETE",
+        }
+      );
       const data = await res.json();
       if (data.error) {
         toast("Error", data.error, "error");

@@ -95,13 +95,16 @@ export default function Signup() {
   const setUser = useSetRecoilState(userAtom);
   const handleSignup = async () => {
     try {
-      const res = await fetch("/api/v1/users/signup", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(inputs),
-      });
+      const res = await fetch(
+        "https://sociabuzz-backend.onrender.com/api/v1/users/signup",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(inputs),
+        }
+      );
       const data = await res.json();
       if (data.error) {
         toast("Error", data.error, "error");

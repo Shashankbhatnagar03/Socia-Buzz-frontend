@@ -29,12 +29,14 @@ const PostPage = () => {
   const currentUser = useRecoilValue(userAtom);
   const navigate = useNavigate();
   const currentPost = posts[0];
-  console.log(posts, "hello");
+  // console.log(posts, "hello");
   useEffect(() => {
     const getPost = async () => {
       setPosts([]);
       try {
-        const res = await fetch(`/api/v1/posts/${pid}`);
+        const res = await fetch(
+          `https://sociabuzz-backend.onrender.com/api/v1/posts/${pid}`
+        );
         const data = await res.json();
 
         if (data.error) {
@@ -53,9 +55,12 @@ const PostPage = () => {
   const handleDeletePost = async () => {
     try {
       if (!window.confirm("Are you sure you want to delete this post?")) return;
-      const res = await fetch(`/api/v1/posts/${currentPost?._id}`, {
-        method: "DELETE",
-      });
+      const res = await fetch(
+        `https://sociabuzz-backend.onrender.com/api/v1/posts/${currentPost?._id}`,
+        {
+          method: "DELETE",
+        }
+      );
       const data = await res.json();
       if (data.error) {
         toast("Error", data.error, "error");

@@ -79,7 +79,9 @@ const Header = () => {
       const getConversation = async () => {
         // setLoadingConversations(true);
         try {
-          const res = await fetch("/api/v1/messages/conversations");
+          const res = await fetch(
+            "https://sociabuzz-backend.onrender.com/api/v1/messages/conversations"
+          );
           const data = await res.json();
           if (data.error) {
             return;

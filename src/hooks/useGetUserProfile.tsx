@@ -12,7 +12,9 @@ const useGetUserProfile = () => {
   useEffect(() => {
     const getUser = async () => {
       try {
-        const res = await fetch(`/api/v1/users/profile/${username}`);
+        const res = await fetch(
+          `https://sociabuzz-backend.onrender.com/api/v1/users/profile/${username}`
+        );
         const data = await res.json();
         if (data.error) {
           toast("Error", data.error, "error");

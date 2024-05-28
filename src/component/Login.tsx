@@ -102,13 +102,16 @@ export default function Login() {
   const handlelogin = async () => {
     try {
       setLoading(true);
-      const res = await fetch("/api/v1/users/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(inputs),
-      });
+      const res = await fetch(
+        "https://sociabuzz-backend.onrender.com/api/v1/users/login",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(inputs),
+        }
+      );
       const data = await res.json();
       if (data.error) {
         onLoginFailActivate();

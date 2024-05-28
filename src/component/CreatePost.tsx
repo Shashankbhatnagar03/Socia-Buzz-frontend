@@ -15,6 +15,7 @@ import {
   ModalOverlay,
   Text,
   Textarea,
+  useColorMode,
   useColorModeValue,
   useDisclosure,
 } from "@chakra-ui/react";
@@ -40,20 +41,24 @@ const CreatePost = () => {
   const [posts, setPosts] = useRecoilState(postsAtom);
   const { username } = useParams();
   const color = useColorModeValue("gray.300", "grey.dark");
+  const { colorMode } = useColorMode();
   const handleCreatePost = async () => {
     setLoading(true);
     try {
-      const res = await fetch("/api/v1/posts/create", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          postedBy: user._id,
-          text: postText,
-          img: imgUrl,
-        }),
-      });
+      const res = await fetch(
+        "https://sociabuzz-backend.onrender.com/api/v1/posts/create",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            postedBy: user._id,
+            text: postText,
+            img: imgUrl,
+          }),
+        }
+      );
 
       const data = await res.json();
       if (data.error) {
@@ -103,7 +108,14 @@ const CreatePost = () => {
 
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
-        <ModalContent>
+        <ModalContent
+          bg={
+            colorMode === "dark"
+              ? "rgba(16, 16, 16, 0.6)"
+              : "rgba(237, 242, 247, 0.6)"
+          }
+          backdropFilter="blur(25px)"
+        >
           <ModalHeader>Create Post</ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={6}>

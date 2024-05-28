@@ -27,12 +27,15 @@ const SettingsPage = () => {
   const freezeAccount = async () => {
     setLoading(true);
     try {
-      const res = await fetch("/api/v1/users/freeze", {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const res = await fetch(
+        "https://sociabuzz-backend.onrender.com/api/v1/users/freeze",
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
       const data = await res.json();
       if (data.error) {
         toast("Error", data.error, "error");

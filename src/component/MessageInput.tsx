@@ -45,17 +45,20 @@ const MessageInput = ({ setMessages }: IMessageInputProps) => {
     setIsSending(true);
 
     try {
-      const res = await fetch(`api/v1/messages`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          message: messageText,
-          img: imgUrl,
-          recipientId: selectedConversation.userId,
-        }),
-      });
+      const res = await fetch(
+        `https://sociabuzz-backend.onrender.com/api/v1/messages`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            message: messageText,
+            img: imgUrl,
+            recipientId: selectedConversation.userId,
+          }),
+        }
+      );
       const data = await res.json();
 
       if (data.error) {

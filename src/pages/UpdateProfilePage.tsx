@@ -35,13 +35,16 @@ export default function UpdateProfilePage() {
 
     setUpdating(true);
     try {
-      const res = await fetch(`/api/v1/users/update/${user._id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ ...inputs, profilePic: imgUrl }),
-      });
+      const res = await fetch(
+        `https://sociabuzz-backend.onrender.com/api/v1/users/update/${user._id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ ...inputs, profilePic: imgUrl }),
+        }
+      );
       const data = await res.json();
       if (data.error) {
         toast("Error", data.error, "error");

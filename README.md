@@ -2,6 +2,10 @@
 
 The frontend of Sociabuzz is a dynamic, user-friendly interface for the Sociabuzz social media platform. It's built with React, a popular JavaScript library for building user interfaces, and Vite, a next-generation frontend tooling. The application leverages TypeScript for type safety, enhancing code reliability and maintainability. It also uses Recoil for efficient state management.
 
+# Explore SociaBuzz Live
+
+[Access the SociaBuzz here](https://socia-buzzz.netlify.app/)
+
 ## Key Features
 
 - **Social Media Posting**: Users can create and share posts, expressing their thoughts and experiences. This feature allows users to share text, images, and videos, providing a rich content sharing experience.

@@ -13,6 +13,7 @@ const useLogout = () => {
         "https://sociabuzz-backend.onrender.com/api/v1/users/logout",
         {
           method: "POST",
+          credentials: "include",
           headers: {
             "Content-Type": "application/json",
           },

@@ -20,7 +20,10 @@ const UserPage: React.FC = () => {
         if (!user) return;
         setFetchingPosts(true);
         const res = await fetch(
-          `https://sociabuzz-backend.onrender.com/api/v1/posts/user/${username}`
+          `https://sociabuzz-backend.onrender.com/api/v1/posts/user/${username}`,
+          {
+            credentials: "include",
+          }
         );
         const data = await res.json();
         // console.log(data);

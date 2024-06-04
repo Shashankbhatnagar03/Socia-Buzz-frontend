@@ -14,7 +14,10 @@ const SuggestedUsers = () => {
       setLoading(true);
       try {
         const res = await fetch(
-          "https://sociabuzz-backend.onrender.com/api/v1/users/suggested"
+          "https://sociabuzz-backend.onrender.com/api/v1/users/suggested",
+          {
+            credentials: "include",
+          }
         );
         const data = await res.json();
         if (data.error) {

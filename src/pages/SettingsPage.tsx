@@ -31,6 +31,7 @@ const SettingsPage = () => {
         "https://sociabuzz-backend.onrender.com/api/v1/users/freeze",
         {
           method: "PUT",
+          credentials: "include",
           headers: {
             "Content-Type": "application/json",
           },

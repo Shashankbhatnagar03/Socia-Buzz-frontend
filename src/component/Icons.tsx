@@ -46,6 +46,7 @@ const Icons = ({ post }: IconsProps) => {
       const res = await fetch(
         "https://sociabuzz-backend.onrender.com/api/v1/posts/like/" + post._id,
         {
+          credentials: "include",
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
@@ -97,6 +98,7 @@ const Icons = ({ post }: IconsProps) => {
       const res = await fetch(
         "https://sociabuzz-backend.onrender.com/api/v1/posts/reply/" + post._id,
         {
+          credentials: "include",
           method: "PUT",
           headers: {
             "Content-Type": "application/json",

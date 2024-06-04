@@ -48,7 +48,10 @@ const NewMessage = () => {
       setLoading(true);
       try {
         const res = await fetch(
-          `https://sociabuzz-backend.onrender.com/api/v1/users/profiles/bulk/?filter=${filter}`
+          `https://sociabuzz-backend.onrender.com/api/v1/users/profiles/bulk/?filter=${filter}`,
+          {
+            credentials: "include",
+          }
         );
         let data = await res.json();
         if (data.error) {

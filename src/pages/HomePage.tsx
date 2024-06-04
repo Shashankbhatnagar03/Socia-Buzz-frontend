@@ -20,7 +20,10 @@ const HomePage = () => {
       setPosts([]);
       try {
         const res = await fetch(
-          "https://sociabuzz-backend.onrender.com/api/v1/posts/feed"
+          "https://sociabuzz-backend.onrender.com/api/v1/posts/feed",
+          {
+            credentials: "include",
+          }
         );
         const data = await res.json();
         if (data.error) {

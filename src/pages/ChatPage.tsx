@@ -109,7 +109,10 @@ const ChatPage = () => {
       setLoadingConversations(true);
       try {
         const res = await fetch(
-          "https://sociabuzz-backend.onrender.com/api/v1/messages/conversations"
+          "https://sociabuzz-backend.onrender.com/api/v1/messages/conversations",
+          {
+            credentials: "include",
+          }
         );
         const data = await res.json();
         if (data.error) {
@@ -160,7 +163,10 @@ const ChatPage = () => {
     setSearchingUser(true);
     try {
       const res = await fetch(
-        `https://sociabuzz-backend.onrender.com/api/v1/users/profile/${searchText}`
+        `https://sociabuzz-backend.onrender.com/api/v1/users/profile/${searchText}`,
+        {
+          credentials: "include",
+        }
       );
       const searchedUser = await res.json();
       if (searchedUser.error) {

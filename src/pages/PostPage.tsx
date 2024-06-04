@@ -35,7 +35,10 @@ const PostPage = () => {
       setPosts([]);
       try {
         const res = await fetch(
-          `https://sociabuzz-backend.onrender.com/api/v1/posts/${pid}`
+          `https://sociabuzz-backend.onrender.com/api/v1/posts/${pid}`,
+          {
+            credentials: "include",
+          }
         );
         const data = await res.json();
 
@@ -59,6 +62,7 @@ const PostPage = () => {
         `https://sociabuzz-backend.onrender.com/api/v1/posts/${currentPost?._id}`,
         {
           method: "DELETE",
+          credentials: "include",
         }
       );
       const data = await res.json();

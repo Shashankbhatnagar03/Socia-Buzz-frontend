@@ -39,6 +39,7 @@ export default function UpdateProfilePage() {
         `https://sociabuzz-backend.onrender.com/api/v1/users/update/${user._id}`,
         {
           method: "PUT",
+          credentials: "include",
           headers: {
             "Content-Type": "application/json",
           },

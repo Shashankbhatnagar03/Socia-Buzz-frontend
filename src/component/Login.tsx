@@ -105,6 +105,7 @@ export default function Login() {
       const res = await fetch(
         "https://sociabuzz-backend.onrender.com/api/v1/users/login",
         {
+          credentials: "include",
           method: "POST",
           headers: {
             "Content-Type": "application/json",

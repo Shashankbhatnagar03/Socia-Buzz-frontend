@@ -10,9 +10,9 @@ export default defineConfig({
     //get rid of cors error
     proxy: {
       "/api/v1": {
-        target: "http://localhost:5000",
+        target: "https://sociabuzz-backend.onrender.com",
         changeOrigin: true,
-        secure: false,
+        secure: true,
       },
     },
   },

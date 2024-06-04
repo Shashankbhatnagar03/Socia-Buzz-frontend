@@ -23,7 +23,10 @@ const Post = ({ post, userId }: UserPagePostProps) => {
       try {
         const res = await fetch(
           "https://sociabuzz-backend.onrender.com/api/v1/users/profile/" +
-            userId
+            userId,
+          {
+            credentials: "include",
+          }
         );
         const data = await res.json();
         if (data.error) {
@@ -50,6 +53,7 @@ const Post = ({ post, userId }: UserPagePostProps) => {
         `https://sociabuzz-backend.onrender.com/api/v1/posts/${post._id}`,
         {
           method: "DELETE",
+          credentials: "include",
         }
       );
       const data = await res.json();

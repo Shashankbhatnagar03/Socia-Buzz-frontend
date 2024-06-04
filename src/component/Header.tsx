@@ -80,7 +80,10 @@ const Header = () => {
         // setLoadingConversations(true);
         try {
           const res = await fetch(
-            "https://sociabuzz-backend.onrender.com/api/v1/messages/conversations"
+            "https://sociabuzz-backend.onrender.com/api/v1/messages/conversations",
+            {
+              credentials: "include",
+            }
           );
           const data = await res.json();
           if (data.error) {

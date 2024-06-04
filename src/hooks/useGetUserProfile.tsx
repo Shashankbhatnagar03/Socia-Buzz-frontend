@@ -13,7 +13,10 @@ const useGetUserProfile = () => {
     const getUser = async () => {
       try {
         const res = await fetch(
-          `https://sociabuzz-backend.onrender.com/api/v1/users/profile/${username}`
+          `https://sociabuzz-backend.onrender.com/api/v1/users/profile/${username}`,
+          {
+            credentials: "include",
+          }
         );
         const data = await res.json();
         if (data.error) {

@@ -24,6 +24,7 @@ const useFollowUnfollow = (user: IUser) => {
         `https://sociabuzz-backend.onrender.com/api/v1/users/follow/${user._id}`,
         {
           method: "POST",
+          credentials: "include",
           headers: {
             "Content-Type": "application/json",
           },
